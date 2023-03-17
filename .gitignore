@@ -1,7 +1,8 @@
 bibliografia
 PDB
-harmonogram
-harmonogram_pdf
+harmonogram.pages
+harmonogram.pdf
+.idea
 
 # Created by 
 https://www.toptal.com/developers/gitignore/api/macos,pycharm,tex,r,python,visualstudiocode
