@@ -1,6 +1,7 @@
-\documentclass[licencjacka]{pracamgr}
+\documentclass[licencjacka]{pracamgr_Kogni}
 \usepackage{setspace}
 \usepackage{hyperref}
+\usepackage{natbib}
 \onehalfspacing
 \autor{Kamil Tomaszek}{432044}
 \title{Minimalizacja długości zależności w~strukturach współrzędnie złożonych: badanie korpusowe na~podstawie Polish Dependency Bank}
@@ -28,14 +29,58 @@ danych za pomocą algorytmu napisanego w Pythonie. W czwartym rozdziale zaprezen
 
 \chapter{Wstęp}
 W tym rozdziale przedstawiam motywację i cel pracy licencjackiej na temat "Minimalizacja długości zależności w strukturach współrzędnie złożonych: badanie korpusowe na podstawie Polish Dependency Bank", a także omawiam jej zakres oraz strukturę.
+
 \section{Motywacja i cel pracy}
-Praca ta ma na celu analizę zjawiska minimalizacji długości zależności – DLM (z ang. Dependency Length Minimisation), czyli tendencji do umieszczania elementów współrzędnych o różnych długościach w sposób, by zmniejszyć odległość zarówno między nimi samymi, jak i między nimi a innymi elementami zdania, w koordynacjach w języku polskim, czyli sytuacjach, gdy wiele części zdania ma jeden nadrzędnik i wszystkie się z nim w pewien sposób koordynują. Zjawisko to jest istotne dla teorii składniowej i reprezentacji językowych, ponieważ dotyczy zarówno formy jak i znaczenia zdań. W pracy tej sprawdzono dwie hipotezy dotyczące długości członów w koordynacjach w języku polskim: (1) że dłuższy człon koordynacji jest częściej ze strony prawej i (2) że dłuższy człon koordynacji jest częściej dalej od jej nadrzędnika. Szybko pokazano, że jedna z nich zachodzi w większości przypadków, więc następnie omówiono wpływ obecności i pozycji nadrzędnika oraz długości różnicy między analizowanymi członami na proporcje danych, w których hipoteza ta jest prawdziwa. Praca ta ma charakter empiryczny i opiera się na danych pochodzących z Polish Dependency Bank (PDB), czyli korpusu języka polskiego zawierającego ponad 22 tysiące drzew zależnościowych. 
+Praca ta ma na celu analizę zjawiska minimalizacji długości zależności – DLM (z ang. Dependency Length Minimisation), czyli tendencji do umieszczania elementów współrzędnych o różnych długościach w sposób, by zmniejszyć odległość zarówno między nimi samymi, jak i między nimi a innymi elementami zdania, w koordynacjach w języku polskim. Koordynacja to zjawisko, gdy wiele części zdania ma jeden nadrzędnik i każda z nich się z nim koordynuje. Zjawisko to jest istotne dla teorii składniowej i reprezentacji językowych, ponieważ dotyczy zarówno formy jak i znaczenia zdań. W pracy tej sprawdzono dwie hipotezy dotyczące długości członów w koordynacjach w języku polskim: (1) że dłuższy człon koordynacji jest częściej ze strony prawej i (2) że dłuższy człon koordynacji jest częściej dalej od jej nadrzędnika. Szybko pokazano, że jedna z nich zachodzi w większości przypadków, więc następnie omówiono wpływ obecności i pozycji nadrzędnika oraz długości różnicy między analizowanymi członami na proporcje danych, w których hipoteza ta jest prawdziwa. Praca ta ma charakter empiryczny i opiera się na danych pochodzących z Polish Dependency Bank (PDB), czyli korpusu języka polskiego zawierającego ponad 22 tysiące drzew zależnościowych.
+
 \section{Zakres i struktura pracy}
-Praca składa się z sześciu rozdziałów. W rozdziale drugim omówiono teoretyczne podstawy pracy, tj. reprezentacje koordynacji w języku polskim, teorię zależności składniowej i DLM w koordynacji. W rozdziale trzecim opisano źródło danych, czyli Polish Dependency Bank, jak i ich preprocessing -- działanie algorytmu, napisanego w języku Python, wybierającego koordynacje z PDB oraz informacje o nich, a także pokazano format danych po preprocessingu w pliku z rozszerzeniem ".csv". W rozdziale czwartym zaprezentowano hipotezy badawcze, ich testowanie oraz analizy statystyczne w R, między innymi test Wilcoxona, testy chi-kwadrat oraz ogólne modele liniowe (GLM – z ang. Generalised Linear Models). W rozdziale piątym omówiono wyniki badań i ich interpretację w kontekście istniejącej wcześniej literatury naukowej. W rozdziale szóstym podsumowano pracę, wyciągnięto z niej wnioski oraz zaproponowano perspektywy dalszych badań. 
+Praca składa się z sześciu rozdziałów. W rozdziale drugim omówiono teoretyczne podstawy pracy, tj. reprezentacje koordynacji w języku polskim, teorię zależności składniowej i DLM w koordynacji. W rozdziale trzecim opisano źródło danych, czyli Polish Dependency Bank, jak i ich preprocessing -- działanie algorytmu, napisanego w języku Python, wybierającego koordynacje oraz informacje o nich z PDB, a także pokazano format danych po preprocessingu w pliku z rozszerzeniem ".csv". W rozdziale czwartym zaprezentowano hipotezy badawcze, ich testowanie oraz analizy statystyczne w R, między innymi test Wilcoxona, testy chi-kwadrat oraz ogólne modele liniowe (GLM – z ang. Generalised Linear Models). W rozdziale piątym omówiono wyniki badań i ich interpretację w kontekście istniejącej wcześniej literatury naukowej. W rozdziale szóstym podsumowano pracę, wyciągnięto z niej wnioski oraz zaproponowano perspektywy dalszych badań. 
+
 \chapter{Teoretyczne podstawy minimalizacji długości zależności w strukturach współrzędnie złożonych}
-Tekst rozdziału
+W tym rozdziale omawiam teoretyczne podstawy pracy, tj. reprezentacje koordynacji w języku polskim, teorię zależności składniowej i DLM w koordynacji.
+
 \section{Koordynacja w języku polskim}
-Tekst sekcji
+Zacznę od przedstawienia pojęcia koordynacji. Koordynacja to zjawisko w językach naturalnych, które zachodzi w struktruach złożonych -- zarówno współrzędnie, jak i podrzędnie. Polega na zestawieniu dwóch lub więcej elementów o tej samej funkcji składniowej za pomocą spójników lub interpunkcji i tym samym złączenie ich w jeden, większy element, zachowujący te same funkcje składniowe. Jest ono jednym z podstawowych sposobów łączenia słów, czy zdań. Elementami koordynacji mogą być zarówno pojedyncze słowa (1a, 1b),  wyrażenia (1c), jak i całe zdania (1d):
+\\
+
+1.
+
+(a) Ania \textbf{i} Julia idą na spacer.
+
+(b) Ania \textbf{i} Julia.
+
+(c) Wesoła Marysia \textbf{oraz} smutny Janek wybrali się do parku.
+
+(d) Kuba zjadł obiad \textbf{a} następnie poszedł spać.
+\\
+\\
+Człony koordynacji nazywamy koordynantami, to co je łączy -- spójnikiem koordynacji (w przykładach w tej pracy jest on ilustrowany pogrubionym tekstem), a wyraz nadrzędny względem obu członów (jeśli taki istnieje) -- głową koordynacji.
+W podanych wyżej przykładach koordynantami są: (1a, 1b) Ania, Julia; (1c) Wesoła Marysia, smutny Janek; (1d) zjadł obiad, poszedł spać. Głową koordynacji w (1a) jest idą, w (1c) wybrali się, a w (1d) Kuba. W (1b) nie ma głowy koordynacji.
+
+Ze względów semantycznych zwykle wyróżnia się cztery rodzaje koordynacji: koordynacje koniunkcyjne (2a), koordynacje dysjunkcyjne (2b), koordynacje adwersatywne (2c) oraz koordynacje kauzalne (2d) \citep{Haspelmath2007}. Każde z nich używają różnych zestawów spójników, które łączą koordynanty. W koordynacjach koniunkcyjnych koordynanty łączą m. in. spójniki [i, oraz, ani, tudzież, również], a w koordynacjach dysjunkcyjnych -- [albo, bądź, lub, czy], lecz w obu tych kategoriach wykorzystywana jest także interpunkcja. W koordynacjach adwersatywnych używamy spójników [ale, lecz, zaś, natomiast, jednak], a w koordynacjach kauzalnych -- [bo, ponieważ, dlatego że].
+\\
+
+2.
+
+(a) Marta zjadła jabłko \textbf{i} gruszkę.
+
+(b) Ona miała szesnaście \textbf{lub} siedemnaście lat.
+
+(c) Byli ładni, \textbf{ale} głupi.
+
+(d) Nie zrobiłem pracy domowej, \textbf{bo} nie chciałem.
+\\
+\\
+Koordynacje można dzielić również względem ich struktury, na 3 głowne typy i ich podtypy \citep{Haspelmath2007}:\\
+
+3.
+
+(a) asyndetyczne
+\\ \textbf{A B}
+
+(b) monosyndetyczne
+
+(c) bisyndetyczne
 \section{Zarys teorii zależności składniowej}
 Tekst sekcji
 \section{Minimalizacja długości zależności w koordynacji}
@@ -80,47 +125,11 @@ Tekst sekcji
 \begin{thebibliography}{99}
 \addcontentsline{toc}{chapter}{Bibliografia}
 
-% \bibitem[Bea65]{beaman} Juliusz Beaman, \textit{Morbidity of the Jolly
-%     function}, Mathematica Absurdica, 117 (1965) 338--9.
-
-% \bibitem[Blar16]{eb1} Elizjusz Blarbarucki, \textit{O pewnych
-%     aspektach pewnych aspektów}, Astrolog Polski, Zeszyt 16, Warszawa
-%   1916.
-
-% \bibitem[Fif00]{ffgg} Filigran Fifak, Gizbert Gryzogrzechotalski,
-%   \textit{O blabalii fetorycznej}, Materiały Konferencji Euroblabal
-%   2000.
-
-% \bibitem[Fif01]{ff-sr} Filigran Fifak, \textit{O fetorach
-%     $\sigma$-$\rho$}, Acta Fetorica, 2001.
-
-% \bibitem[Głomb04]{grglo} Gryzybór Głombaski, \textit{Parazytonikacja
-%     blabiczna fetorów --- nowa teoria wszystkiego}, Warszawa 1904.
-
-% \bibitem[Hopp96]{hopp} Claude Hopper, \textit{On some $\Pi$-hedral
-%     surfaces in quasi-quasi space}, Omnius University Press, 1996.
-
-% \bibitem[Leuk00]{leuk} Lechoslav Leukocyt, \textit{Oval mappings ab ovo},
-%   Materiały Białostockiej Konferencji Hodowców Drobiu, 2000.
-
-% \bibitem[Rozk93]{JR} Josip A.~Rozkosza, \textit{O pewnych własnościach
-%     pewnych funkcji}, Północnopomorski Dziennik Matematyczny 63491
-%   (1993).
-
-% \bibitem[Spy59]{spyrpt} Mrowclaw Spyrpt, \textit{A matrix is a matrix
-%     is a matrix}, Mat. Zburp., 91 (1959) 28--35.
-
-% \bibitem[Sri64]{srinis} Rajagopalachari Sriniswamiramanathan,
-%   \textit{Some expansions on the Flausgloten Theorem on locally
-%     congested lutches}, J. Math.  Soc., North Bombay, 13 (1964) 72--6.
-
-% \bibitem[Whi25]{russell} Alfred N. Whitehead, Bertrand Russell,
-%   \textit{Principia Mathematica}, Cambridge University Press, 1925.
-
-% \bibitem[Zen69]{heu} Zenon Zenon, \textit{Użyteczne heurystyki
-%     w~blabalizie}, Młody Technik, nr~11, 1969.
+\bibitem [Haspelmath(2007)]{Haspelmath2007}
+Haspelmath, M. (2007) Coordination, \textit{Language Typology and Syntactic Description, Volume II: Complex constructions}, 1-51
 
 \end{thebibliography}
+
 
 \chapter*{Załączniki}
 \addcontentsline{toc}{chapter}{Załączniki}
