@@ -12,7 +12,7 @@
 % Zmiany 06.03.2023 by Kamil Tomaszek (na użytek własny)
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{pracamgr}[2017/01/03 v0.7.0 Praca magisterska]
+\ProvidesClass{pracamgr_Kogni}[2017/01/03 v0.7.0 Praca magisterska]
 \newif\ifmyclass@en
 \ExecuteOptions{pl}
 \ProcessOptions\relax
