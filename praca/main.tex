@@ -4,10 +4,10 @@
 \usepackage{xcolor}
 \usepackage{hyperref} 
  \hypersetup{ 
-     colorlinks=true, 
-     linkcolor=black, 
-     citecolor=black,       
-     urlcolor=darkgray, 
+     colorlinks=true,
+     linkcolor=black,
+     citecolor=black,
+     urlcolor=darkgray,
      }
 \onehalfspacing
 \autor{Kamil Tomaszek}{432044}
@@ -46,7 +46,7 @@ Praca ta ma na celu analizę zjawiska minimalizacji długości zależności – 
 Długości członów mierzono na cztery różne sposoby, licząc znaki, sylaby, słowa oraz tokeny. W przykładzie (0) odpowiednie wartości wynosiłyby [4~vs~31, 2~vs~9, 1~vs~4, 1~vs~5]. Szybko pokazano, że jedna z hipotez zachodzi w większości przypadków, więc następnie omówiono wpływ obecności i pozycji nadrzędnika oraz długości różnicy między analizowanymi członami na proporcje danych, w których hipoteza ta jest prawdziwa. Praca ta ma charakter empiryczny, opiera się na danych pochodzących z Polish Dependency Bank (PDB), czyli korpusu języka polskiego zawierającego ponad 22 tysiące drzew zależnościowych oraz na podobnej pracy badającej te same zależności, ale dla języka angielskiego \citep{AnonimoweNieopublikowane}.
 
 \section{Zakres i struktura pracy}
-Praca składa się z sześciu rozdziałów. W rozdziale drugim omówiono teoretyczne podstawy pracy, tj. przedstawiono czym są koordynacje -- na przykładzie języka polskiego, opisano zarys teorii zależności składniowej, zaprezentowano . W rozdziale trzecim opisano źródło danych, czyli Polish Dependency Bank, jak i ich preprocessing -- działanie algorytmu, napisanego w języku Python, wybierającego koordynacje oraz informacje o nich z PDB, a także pokazano format danych po preprocessingu w pliku z rozszerzeniem ".csv". W rozdziale czwartym zaprezentowano hipotezy badawcze, ich testowanie oraz analizy statystyczne w R, między innymi test Wilcoxona, testy chi-kwadrat oraz ogólne modele liniowe (GLM – z ang. Generalised Linear Models). W rozdziale piątym omówiono wyniki badań i ich interpretację w kontekście istniejącej wcześniej literatury naukowej. W rozdziale szóstym podsumowano pracę, wyciągnięto z niej wnioski oraz zaproponowano perspektywy dalszych badań. 
+Praca składa się z sześciu rozdziałów. W rozdziale drugim omówiono teoretyczne podstawy pracy, tj. przedstawiono czym są koordynacje -- na przykładzie języka polskiego, zaprezentowano zarys teorii zależności składniowej, opisano minimalizację teorii zależności oraz wskazano różne reprezentacje zależnościowe wraz z ich przewidywaniami. W rozdziale trzecim opisano źródło danych, czyli Polish Dependency Bank, jak i ich preprocessing -- działanie algorytmu, napisanego w języku Python, wybierającego koordynacje oraz informacje o nich z PDB, a także pokazano format danych po preprocessingu w pliku z rozszerzeniem ".csv". W rozdziale czwartym zaprezentowano hipotezy badawcze, ich testowanie wraz z analizami statystycznymi w języku R (m. in. test Wilcoxona, testy chi-kwadrat oraz ogólne modele liniowe (GLM – z ang. Generalised Linear Models)). W rozdziale piątym omówiono wyniki badań i ich interpretację w kontekście istniejącej wcześniej literatury naukowej. W rozdziale szóstym podsumowano pracę, wyciągnięto z niej wnioski oraz zaproponowano perspektywy dalszych badań. 
 
 \chapter{Teoretyczne podstawy minimalizacji długości zależności w strukturach współrzędnie złożonych}
 W tym rozdziale omawiam teoretyczne podstawy pracy, tj. reprezentacje koordynacji w języku polskim, teorię zależności składniowej i DLM w koordynacji.
