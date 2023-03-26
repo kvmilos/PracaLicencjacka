@@ -38,6 +38,7 @@ danych za pomocą algorytmu napisanego w Pythonie. W czwartym rozdziale zaprezen
 W tym rozdziale przedstawiam motywację i cel pracy licencjackiej na temat "Minimalizacja długości zależności w strukturach współrzędnie złożonych: badanie korpusowe na podstawie Polish Dependency Bank", a także omawiam jej zakres oraz strukturę.
 
 \section{Motywacja i cel pracy}
+
 Praca ta ma na celu analizę zjawiska minimalizacji długości zależności – DLM (z ang. Dependency Length Minimisation), czyli tendencji do umieszczania elementów współrzędnych o różnych długościach w sposób, by zmniejszyć odległość zarówno między nimi samymi, jak i między nimi a innymi elementami zdania, w koordynacjach w języku polskim. Koordynacja to zjawisko, gdy wiele części zdania ma jeden nadrzędnik i każda z nich się z nim koordynuje. Zjawisko to jest istotne dla teorii składniowej i reprezentacji językowych, ponieważ dotyczy zarówno formy jak i znaczenia zdań. W pracy tej sprawdzono dwie hipotezy dotyczące długości członów w koordynacjach w języku polskim: 1. że dłuższy człon koordynacji jest częściej ze strony prawej i 2. że dłuższy człon koordynacji jest częściej dalej od jej nadrzędnika.
 \\
 
@@ -49,7 +50,7 @@ Długości członów mierzono na cztery różne sposoby, licząc znaki, sylaby, 
 Praca składa się z sześciu rozdziałów. W rozdziale drugim omówiono teoretyczne podstawy pracy, tj. przedstawiono czym są koordynacje -- na przykładzie języka polskiego, zaprezentowano zarys teorii zależności składniowej, opisano minimalizację teorii zależności oraz wskazano różne reprezentacje zależnościowe wraz z ich przewidywaniami. W rozdziale trzecim opisano źródło danych, czyli Polish Dependency Bank, jak i ich preprocessing -- działanie algorytmu, napisanego w języku Python, wybierającego koordynacje oraz informacje o nich z PDB, a także pokazano format danych po preprocessingu w pliku z rozszerzeniem ".csv". W rozdziale czwartym zaprezentowano hipotezy badawcze, ich testowanie wraz z analizami statystycznymi w języku R (m. in. test Wilcoxona, testy chi-kwadrat oraz ogólne modele liniowe [GLM – z ang. Generalised Linear Models]). W rozdziale piątym omówiono wyniki badań i ich interpretację w kontekście istniejącej wcześniej literatury naukowej. W rozdziale szóstym podsumowano pracę, wyciągnięto z niej wnioski oraz zaproponowano perspektywy dalszych badań. 
 
 \chapter{Teoretyczne podstawy minimalizacji długości zależności w strukturach współrzędnie złożonych}
-W tym rozdziale omawiam teoretyczne podstawy pracy, tj. reprezentacje koordynacji w języku polskim, teorię zależności składniowej i DLM w koordynacji.
+W tym rozdziale omawiam teoretyczne podstawy pracy, tj. opisuję czym są koordynacje, przedstawiam zarys teorii zależności składniowej, prezentuję minimalizację teorii zależności oraz wskazuję różne reprezentacje zależnościowe wraz z ich przewidywaniami.
 
 \section{Koordynacja w języku polskim}
 Zacznę od przedstawienia pojęcia koordynacji. Koordynacja to zjawisko w językach naturalnych, które zachodzi w struktruach złożonych -- zarówno współrzędnie, jak i podrzędnie. Polega na zestawieniu dwóch lub więcej elementów o tej samej funkcji składniowej za pomocą spójników lub interpunkcji i tym samym złączenie ich w jeden, większy element, zachowujący te same funkcje składniowe. Jest ono jednym z podstawowych sposobów łączenia słów, czy zdań. Elementami koordynacji mogą być zarówno pojedyncze słowa (1a, 1b),  wyrażenia (1c), jak i całe zdania (1d):
@@ -83,11 +84,11 @@ c. \textit{Byli} ładni, \textbf{ale} głupi.
 d. Nie zrobiłem pracy domowej, \textbf{bo} nie chciałem.
 
 \section{Zarys teorii zależności składniowej}
-Tekst sekcji
+\citep{Liu2008}
 
 \section{Minimalizacja długości zależności}
 Minimalizacja długości zależności (DLM) to zasada, według której języki naturalne dążą do zmniejszania odległości między słowami zależnymi syntaktycznie. Zasada ta jest odnotowywana w lingwistyce już od długiego czasu i pozwala nam na bardziej efektywne analizowanie i generowanie języka naturalnego. W ciągu ostatnich 20 lat hipoteza o nacisku na DLM została wykorzystana do wyjaśnienia wielu z najbardziej uniwersalnych właściwości języków \citep{FutrellEtAl2015}.
-Jak twierdzą \citet{Hawkins1994} i \citet{FutrellEtAl2020}, rozróżniamy jej występowanie na poziom gramatyczny, jak i codzienne użycie języka.
+Jak twierdzą \citet{Hawkins1994} i \citet{FutrellEtAl2020}, rozróżniamy jej występowanie na poziom gramatyczny, jak i codzienne użycie języka. \citet{Liu2008} twierdzi, że długości zależności mogłyby być wskaźnikiem trudności danego języka, sugerując przy tym pewną uniwersalność stosowania DLM w celu łatwiejszego zrozumienia mowy i pisma.
 
 Według DLM, jeśli oba ustawienia członów koordynacji binarnych (jeden człon raz z lewej strony, raz z prawej) są gramatycznie poprawne, to bliżej głowy znajdzie się krótszy człon. W przykładach (3a, 3b) oba ustawienia wydają się brzmieć naturalnie, jednak gdy wydłużymy jeden z członów -- w (3c, 3d), zauważymy, że bardziej naturalne będzie ustawienie krótszego członu z lewej strony.
 \\
@@ -113,14 +114,14 @@ a. I gave <a book> <to John>. [Dałem <książkę> <Johnowi>.]
 b. I gave <to John> <a book>. [Dałem <Johnowi> <książkę>.]
 
 c. I gave <to John> <the most interesting book I've read in years>. [Dałem <Johnowi> <najbardziej interesującą książkę, jaką przeczytałem od lat>.]\\
-Za: \citet{AnonimoweNieopublikowane}
+za: \citet{AnonimoweNieopublikowane}
 \\
 \\
-Jednym ze sposobów na badanie DLM jest tworzenie sztucznych języków losowych (w których kolejność słów, czy relacje zależności są losowo dobierane) oraz porównywanie długości zależności w tych językach z długościami zależności w językach naturalnych. Badania takie wykazały, że języki naturalne mają znacznie krótsze długości zależności niż języki losowe, co sugeruje, że istnieje uniwersalna tendencja u ludzi do wykorzystywania DLM \citep{Liu2008,Ferrer2014}. 
+Jednym ze sposobów na badanie DLM jest tworzenie sztucznych języków losowych (w których kolejność słów, czy relacje zależności są losowo dobierane) oraz porównywanie długości zależności w tych językach z długościami zależności w językach naturalnych. Badania wykazały, że języki naturalne mają istotnie krótsze długości zależności niż sztucznie wygenerowane wartości dla przykładowych losowych języków \citep{FutrellEtAl2015}, co sugeruje, że istnieje uniwersalna tendencja u ludzi do wykorzystywania DLM.
 
 DLM jest również powiązana z innymi właściwościami języków naturalnych, takimi jak projektywność i finalność głowy. Projektywność oznacza brak lub rzadkość przecinających się zależności, które wydłużają długość zależności. Finalność głowy oznacza kierunek występowania nadrzędnika frazy względem jej dopełnienia. Badania wykazały, że istnieje związek między finalnością głowy a długością zależności, przy czym języki o finalności głowy na końcu zdania mają krótszą długość zależności niż języki o finalności głowy na początku zdania \citep{FutrellEtAl2015}.
 
-DLM nie jest jednak jedynym czynnikiem kształtującym strukturę syntaktyczną języków naturalnych. Istnieją również inne ograniczenia i preferencje, takie jak harmonia głowy, ograniczenia informacyjne czy preferencje semantyczne, które mogą wpływać na kolejność słów i długość zależności. Niektóre z tych czynników mogą być sprzeczne lub komplementarne względem DLM. Dlatego DLM należy rozumieć jako jeden z wielu czynników wpływających na organizację języka naturalnego \citep{Temperley2018}.
+DLM nie jest jednak jedynym czynnikiem kształtującym strukturę syntaktyczną języków naturalnych. Istnieją również inne ograniczenia i preferencje, takie jak harmonia głowy, ograniczenia informacyjne czy preferencje semantyczne, które mogą wpływać na kolejność słów i długość zależności. Niektóre z tych czynników mogą być sprzeczne lub komplementarne względem DLM. Dlatego DLM należy rozumieć jako jeden z wielu czynników wpływających na organizację języka naturalnego.
 
 \section{Różne reprezentacje koordynacji}
 Tekst sekcji
@@ -165,9 +166,6 @@ Tekst sekcji
 \bibitem [Anonimowe Zgłoszenie na ACL(nieopublikowane)]{AnonimoweNieopublikowane}
 Anonimowe Zgłoszenie na ACL 2023 (nieopublikowane). Conjunct Lengths in English, Dependency Length Minimization, and Dependency Structure of Coordination
 
-\bibitem [Ferrer-i-Cancho \& Liu(2014)]{Ferrer2014}
-Ferrer-i-Cancho, R., Liu, H. (2014). The risks of mixing dependency lengths from sequences of different length. \textit{Glottotheory} 5(2), 143-155. \url{https://doi.org/10.48550/arXiv.1304.3841}
-
 \bibitem [Futrell et al.(2015)]{FutrellEtAl2015}
 Futrell, R., Mahowald, K., \& Gibson, E. (2015). Large-scale evidence of dependency length minimization in 37 languages. \textit{Proceedings of the National Academy of Sciences} 112(33), 10336–10341. \url{https://doi.org/10.1073/pnas.1502134112}
 
@@ -178,16 +176,10 @@ Futrell, R., Levy R. P., \& Gibson, E. (2020). Dependency locality as an explana
 Haspelmath, M. (2007). Coordination. In T. Shopen (Ed.), \textit{Language typology and syntactic description, Volume II: Complex constructions} (pp. 1-51). Cambridge University Press.
 
 \bibitem [Hawkins(1994)]{Hawkins1994}
-Hawkins, J. A. (1994). A Performance Theory of Or- der and Constituency. \textit{Cambridge University Press}. Za: Anonimowe Zgłoszenie na ACL 2023 (nieopublikowane). Conjunct Lengths in English, Dependency Length Minimization, and Dependency Structure of Coordination
+Hawkins, J. A. (1994). A Performance Theory of Order and Constituency. \textit{Cambridge University Press}. Za: Anonimowe Zgłoszenie na ACL 2023 (nieopublikowane). Conjunct Lengths in English, Dependency Length Minimization, and Dependency Structure of Coordination
 
 \bibitem [Liu(2008)]{Liu2008}
 Liu, H. (2008). Dependency distance as a metric of language comprehension difficulty. \textit{Journal of Cognitive Science} 9(2), 159–191. \url{https://doi.org/10.17791/jcs.2008.9.2.159}
-
-\bibitem [Shuang et al.(2020)]{Shuang2020}
-Shuang, K., Tan, Y., Cai, Z., \& Sun, Y. (2020). Natural language modeling with syntactic structure dependency. \textit{Information Sciences} 523, 220-233. \url{https://doi.org/10.1016/j.ins.2020.03.031}
-
-\bibitem[Temperley(2018)]{Temperley2018}
-Temperley, D. (2018). Minimizing dependency length in phrasal and sentential coordination: A quantitative study of English and German. \textit{Journal of Quantitative Linguistics} 25(3), 223–244. \url{https://doi.org/10.1080/09296174.2017.1390669}
 
 \end{thebibliography}
 
