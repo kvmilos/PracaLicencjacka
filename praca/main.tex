@@ -2,6 +2,7 @@
 \usepackage{setspace}
 \usepackage{natbib}
 \usepackage{xcolor}
+\usepackage{graphicx}
 \usepackage{hyperref} 
  \hypersetup{ 
      colorlinks=true,
@@ -84,16 +85,38 @@ c. \textit{Byli} ładni, \textbf{ale} głupi.
 d. Nie zrobiłem pracy domowej, \textbf{bo} nie chciałem.
 
 \section{Zarys teorii zależności składniowej}
-\citep{Liu2008}
+Teoria zależności składniowej jest jednym z głównych podejść do analizy struktury zdania w lingwistyce. Teoria ta zakłada, że każde zdanie składa się z korzenia (root) i zależnych od niego elementów, które są połączone za pomocą krawędzi drzewa składniowego.\\
+Teoria ta opiera się na kilku podstawowych założeniach \citep{Liu2008}:\\
+- Struktura zdania wynika z zależności pomiędzy słowami, a nie z ich kolejności. W tym podejściu, zdanie jest analizowane jako złożenie zależności między jego elementami, a nie jako sekwencja słów, jak w tradycyjnym podejściu gramatycznym.\\
+- Każda relacja między elementami jest relacją między dokładnie dwoma elementami\\
+- Zazwyczaj relacje zależności są asymetryczne, jednokierunkowe, gdzie jeden z elementów jest korzeniem (lokalnym), a drugi elementem od niego zależnym.\\
+- Korzeń zdania jest najważniejszym elementem, który określa jego znaczenie i funkcję komunikacyjną. \\
+- Zależności są oznaczane etykietami, które określają funkcje syntaktyczne elementów zależnych.\\
+- Zmiana kolejności słów w zdaniu nie wpływa na jego strukturę zależnościową, a jedynie na jego znaczenie pragmatyczne lub stylistyczne.
+\\
+
+\begin{figure}
+    \hspace{0.7cm}(3) Drzewo składniowe dla przykładowego zdania z PDB:
+
+    \includegraphics{drzewko.pdf}
+
+    Mężczyzna z ciemnymi włosami i wąsami opiera się o słup, stojąc w pobliżu innych ludzi.
+\end{figure}
+
+Powyższe drzewo zależnościowe należy odczytywać w konkretny sposób. Elementy, które są niżej są zależne od elementów znajdujących się wyżej, z którymi są połączone. Korzeń znajduje się na samej górze. Tekst pod etykietami słów oznacza: niebieski -- funkcje, które pełnią w zdaniu oraz zielony -- tzw. \textit{tagi} danych wyrazów. W tym przypadku, słowo \textbf{opiera} jest korzeniem zdania.
+
+Teoria zależności składniowej ma długą i bogatą historię, która sięga aż starożytności. Pierwsze ślady tego podejścia można znaleźć w gramatyce sanskrytu Pāṇiniego, czy w pracach wczesnych arabskich gramatyków \citep{Kruijff2002}, a także w niektórych teoriach gramatycznych średniowiecza \citep{Covington1984}. W XX wieku teoria ta mocno rozwinęła się zwłaszcza w lingwistyce klasycznej i słowiańskiej \citep{Melcuk1988}. \citet{Tesniere1959} podjął próvę stworzenia kompleksowej teorii gramatyki, w której to wszystko byłoby oparte na zależnościach. Przedstawił on jej potencjał do uchwycenia podobieństw, jak i różnic między językami.
+
+Teoria zależności składniowej jest popularnym podejściem w dziedzinie przetwarzania języka naturalnego, ponieważ umożliwia łatwe i precyzyjne analizowanie struktury zdania i wyrażanie jej za pomocą drzew zależnościowych. Ma ona wiele zastosowań, np. w dziedzinach takich jak tłumaczenie maszynowe czy analiza sentymentu, ponieważ ułatwia przetwarzanie i rozumienie znaczenia zdań. W ostatnich latach powstały projekty takie jak Universal Dependencies (\url{https://universaldependencies.org/}), które mają na celu zunifikowanie zagadnień lingwistycznych (w tym wypadku: reprezentacji morfosyntaktycznej) dla różnych języków. Dla języka polskiego stworzono już kilka wersji tego korpusu \citep{Przepiorkowski2020} oraz cały czas się on rozwija na kolejne języki.
 
 \section{Minimalizacja długości zależności}
 Minimalizacja długości zależności (DLM) to zasada, według której języki naturalne dążą do zmniejszania odległości między słowami zależnymi syntaktycznie. Zasada ta jest odnotowywana w lingwistyce już od długiego czasu i pozwala nam na bardziej efektywne analizowanie i generowanie języka naturalnego. W ciągu ostatnich 20 lat hipoteza o nacisku na DLM została wykorzystana do wyjaśnienia wielu z najbardziej uniwersalnych właściwości języków \citep{FutrellEtAl2015}.
 Jak twierdzą \citet{Hawkins1994} i \citet{FutrellEtAl2020}, rozróżniamy jej występowanie na poziom gramatyczny, jak i codzienne użycie języka. \citet{Liu2008} twierdzi, że długości zależności mogłyby być wskaźnikiem trudności danego języka, sugerując przy tym pewną uniwersalność stosowania DLM w celu łatwiejszego zrozumienia mowy i pisma.
 
-Według DLM, jeśli oba ustawienia członów koordynacji binarnych (jeden człon raz z lewej strony, raz z prawej) są gramatycznie poprawne, to bliżej głowy znajdzie się krótszy człon. W przykładach (3a, 3b) oba ustawienia wydają się brzmieć naturalnie, jednak gdy wydłużymy jeden z członów -- w (3c, 3d), zauważymy, że bardziej naturalne będzie ustawienie krótszego członu z lewej strony.
+Według DLM, jeśli oba ustawienia członów koordynacji binarnych (jeden człon raz z lewej strony, raz z prawej) są gramatycznie poprawne, to bliżej głowy znajdzie się krótszy człon. W przykładach (4a, 4b) oba ustawienia wydają się brzmieć naturalnie, jednak gdy wydłużymy jeden z członów -- w (4c, 4d), zauważymy, że bardziej naturalne będzie ustawienie krótszego członu z lewej strony.
 \\
 
-(3)
+(4)
 
 a. \textit{Nie ma} Kamila \textbf{i} Julii.
 
@@ -104,10 +127,10 @@ c. \textit{Nie ma} Kamila \textbf{i} wiecznie spóźnionej Julii.
 d. \textit{Nie ma} wiecznie spóźnionej Julii \textbf{i} Kamila.
 \\
 \\
-\citet{Hawkins1994} argumentuje, że DLM występuje w gramatyce, ale niekoniecznie w użyciu codziennym. Jako powód wskazuje, że w języku angielskim kolejność V-NP-PP (V - czasownik [z ang. verb], NP - fraza rzeczownikowa [z ang. nominal phrase], PP - fraza przyimkowa [z ang. prepositional phrase]) występuje częsciej niż V-PP-NP nie tylko gdy NP jest krótsze od PP, ale i wtedy gdy są podobnej długości. Używa on tego przykładu, ponieważ jest on jednym z tych, które uważa się za ilustrujące występowanie DLM (jako że NP są zazwyczaj krótsze niż PP). Słowa Hawkinsa dla języka angielskiego ilustrują przykłady (4a, 4b), w których kolejność V-NP-PP jest bardziej naturalna niż V-PP-NP), mimo że obie frazy są podobnej długości. Zdanie (4c) również brzmi jednak naturalnie, co wskazuje na pewien wpływ dodatkowego czynnika --  długości różnicy obu członów koordynacji na to, czy DLM będzie w danym przypadku zachowana.
+\citet{Hawkins1994} argumentuje, że DLM występuje w gramatyce, ale niekoniecznie w użyciu codziennym. Jako powód wskazuje, że w języku angielskim kolejność V-NP-PP (V - czasownik [z ang. verb], NP - fraza rzeczownikowa [z ang. nominal phrase], PP - fraza przyimkowa [z ang. prepositional phrase]) występuje częsciej niż V-PP-NP nie tylko gdy NP jest krótsze od PP, ale i wtedy gdy są podobnej długości. Używa on tego przykładu, ponieważ jest on jednym z tych, które uważa się za ilustrujące występowanie DLM (jako że NP są zazwyczaj krótsze niż PP). Słowa Hawkinsa dla języka angielskiego ilustrują przykłady (5a, 5b), w których kolejność V-NP-PP jest bardziej naturalna niż V-PP-NP), mimo że obie frazy są podobnej długości. Zdanie (5c) również brzmi jednak naturalnie, co wskazuje na pewien wpływ dodatkowego czynnika --  długości różnicy obu członów koordynacji na to, czy DLM będzie w danym przypadku zachowana.
 \\
 
-(4)
+(5)
 
 a. I gave <a book> <to John>. [Dałem <książkę> <Johnowi>.]
 
@@ -166,6 +189,10 @@ Tekst sekcji
 \bibitem [Anonimowe Zgłoszenie na ACL(nieopublikowane)]{AnonimoweNieopublikowane}
 Anonimowe Zgłoszenie na ACL 2023 (nieopublikowane). Conjunct Lengths in English, Dependency Length Minimization, and Dependency Structure of Coordination
 
+\bibitem[Covington(1984)]{Covington1984}
+Covington, M.A. (1984). \textit{Syntactic Theory in the High Middle Ages: Modistic Models of Sentence Structure}
+(Cambridge Studies in Linguistics). Cambridge: Cambridge University Press. Za: de Marneffe, M.-C. \& Nivre, J. (2019). Dependency Grammar. \textit{Annual Review of Linguistics} 5, 197-218. \url{https://doi.org/10.1146/annurev-linguistics-011718-011842}
+
 \bibitem [Futrell et al.(2015)]{FutrellEtAl2015}
 Futrell, R., Mahowald, K., \& Gibson, E. (2015). Large-scale evidence of dependency length minimization in 37 languages. \textit{Proceedings of the National Academy of Sciences} 112(33), 10336–10341. \url{https://doi.org/10.1073/pnas.1502134112}
 
@@ -181,8 +208,20 @@ Hawkins, J. A. (1994). A Performance Theory of Order and Constituency. \textit{C
 \bibitem [Jing et al.(2022)]{Jing2022}
 Jing, Y., Blasi, D., \& Bickel, B. (2022). Dependency Length Minimization and Its Limits: A Possible Role for a Probabilistic Version of the Final-Over-Final Condition. \textit{Language} 98(3). \url{https://doi.org/10.1353/lan.2022.0013}. 
 
+\bibitem [Kruijff(2002)]{Kruijff2002}
+Kruijff, G.-J. M. (2002). Formal and computational aspects of dependency grammar: History and development of dg. \textit{Technical report}, ESSLI2002. Za: Pedersen, M., Eades, D. Amin, S. K. \& Prakash, L. (2004). Relative Clauses in Hindi and Arabic: A Paninian Dependency Grammar Analysis. In \textit{Proceedings of the Workshop on Recent Advances in Dependency Grammar} (pp. 9-16). Geneva, COLING
+
 \bibitem [Liu(2008)]{Liu2008}
 Liu, H. (2008). Dependency distance as a metric of language comprehension difficulty. \textit{Journal of Cognitive Science} 9(2), 159–191. \url{https://doi.org/10.17791/jcs.2008.9.2.159}
+
+\bibitem [Mel'čuk(1988)]{Melcuk1988}
+Mel'čuk, I.A. (1988). \textit{Dependency syntax: theory and practice.} SUNY press. Za: de Marneffe, M.-C. \& Nivre, J. (2019). Dependency Grammar. \textit{Annual Review of Linguistics} 5, 197-218. \url{https://doi.org/10.1146/annurev-linguistics-011718-011842}
+
+\bibitem [Przepiórkowski \& Patejuk(2020)]{Przepiorkowski2020}
+Przepiórkowski, A., Patejuk, A. (2020). From Lexical Functional Grammar to enhanced Universal Dependencies. \textit{Lang Resources \& Evaluation} 54, 185–221. \url{https://doi.org/10.1007/s10579-018-9433-z}
+
+\bibitem [Tesnière(1959)]{Tesniere1959}
+Tesnière, L. (1959). \textit{Éléments de syntaxe structurale. Préf. de Jean Fourquet.} C. Klincksieck. Za: de Marneffe, M.-C. \& Nivre, J. (2019). Dependency Grammar. \textit{Annual Review of Linguistics} 5, 197-218. \url{https://doi.org/10.1146/annurev-linguistics-011718-011842}
 
 \end{thebibliography}
 
