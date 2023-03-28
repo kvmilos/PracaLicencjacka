@@ -39,9 +39,14 @@ def create_table(lib, phr, meta):
                     gov = sen[int(sen[j-1][6])-1]
                     res[i].append([gov[1]])  # governor.word
                     res[i].append([gov[4]])  # governor.tag
+                    res[i].append([gov[3]])  # governor.pos
+                    res[i].append([gov[5]])  # governor.ms
                     res[i].append([cur[7]])  # coordination.label
                 res[i].append([cur[2]])  # conjunction.word
                 res[i].append([cur[3]])  # conjunction.tag
+                res[i].append([cur[4]])  # conjunction.pos
+                if cur[5] == '_': # if no ms
+                    res[i].append([''])  # conjunction.ms
                 res[i].append([str(conj[j][0])])  # no.conjuncts
 
 
@@ -67,8 +72,11 @@ def create_table(lib, phr, meta):
                 else:
                     res[i].append([getpart(phr[k], tks_all)])  # L.conjunct
                 res[i].append([syllables(' '.join(num_words(tks_all)))[1]])  # L.conjunct.syllabylized
+                res[i].append([a[7]])  # L.dep.label
                 res[i].append([a[1]])  # L.head.word
                 res[i].append([a[4]])  # L.head.tag
+                res[i].append([a[3]])  # L.head.pos
+                res[i].append([a[5]])  # L.head.ms
                 res[i].append([len(comp1.split())])  # L.words
                 res[i].append([howmany(new1)])  # L.tokens
                 res[i].append([syllables(' '.join(num_words(tks_all)))[0]])  # L.syllables
@@ -83,8 +91,11 @@ def create_table(lib, phr, meta):
                 else:
                     res[i].append([getpart(phr[k], tks_all2)])  # R.conjunct
                 res[i].append([syllables(' '.join(num_words(tks_all2)))[1]])  # R.conjunct.syllabylized
+                res[i].append([b[7]])  # R.dep.label
                 res[i].append([b[1]])  # R.head.word
                 res[i].append([b[4]])  # R.head.tag
+                res[i].append([b[3]])  # R.head.pos
+                res[i].append([b[5]])  # R.head.ms
                 res[i].append([len(comp2.split())])  # R.words
                 res[i].append([howmany(new2)])  # R.tokens
                 res[i].append([syllables(' '.join(num_words(tks_all2)))[0]])  # R.syllables
