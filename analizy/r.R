@@ -5,10 +5,10 @@ dane <- read_delim("~/Desktop/Licencjat/tabela.csv",
                    delim = "\t", escape_double = FALSE, trim_ws = TRUE, quote = "")
 
 # Podział danych ze względu na pozycję nadrzędnika
-dane_0 <- dane[dane$'pozycja nadrzędnika'=="0", ]
-dane_L <- dane[dane$'pozycja nadrzędnika'=="L", ]
-dane_M <- dane[dane$'pozycja nadrzędnika'=="M", ]
-dane_R <- dane[dane$'pozycja nadrzędnika'=="R", ]
+dane_0 <- dane[dane$'governor.position'=="0", ]
+dane_L <- dane[dane$'governor.position'=="L", ]
+dane_M <- dane[dane$'governor.position'=="M", ]
+dane_R <- dane[dane$'governor.position'=="R", ]
 
 # Wyświetlenie liczby wierszy w każdej z podzielonych grup
 nrow(dane_0)
@@ -17,22 +17,22 @@ nrow(dane_M)
 nrow(dane_R)
 # Funkcja tworząca tabelkę z wynikami mediany, średniej, testu Wilcoxona i wartości p
 t1 <- function(data){
-  median_left <- c(median(data$'znaki pierwszego członu'), median(data$'sylaby pierwszego członu'), 
-                   median(data$'słowa pierwszego członu'), median(data$'tokeny pierwszego członu'))
-  median_right <- c(median(data$'znaki ostatniego członu'), median(data$'sylaby ostatniego członu'), 
-                    median(data$'słowa ostatniego członu'), median(data$'tokeny ostatniego członu'))
-  mean_left <- c(mean(data$'znaki pierwszego członu'), mean(data$'sylaby pierwszego członu'), 
-                 mean(data$'słowa pierwszego członu'), mean(data$'tokeny pierwszego członu'))
-  mean_right <- c(mean(data$'znaki ostatniego członu'), mean(data$'sylaby ostatniego członu'), 
-                  mean(data$'słowa ostatniego członu'), mean(data$'tokeny ostatniego członu'))
-  wilcoxon <- c(wilcox.test(data$'znaki pierwszego członu', data$'znaki ostatniego członu')$statistic,
-                wilcox.test(data$'sylaby pierwszego członu', data$'sylaby ostatniego członu')$statistic,
-                wilcox.test(data$'słowa pierwszego członu', data$'słowa ostatniego członu')$statistic,
-                wilcox.test(data$'tokeny pierwszego członu', data$'tokeny ostatniego członu')$statistic)
-  p_value <- c(wilcox.test(data$'znaki pierwszego członu', data$'znaki ostatniego członu')$p.value,
-               wilcox.test(data$'sylaby pierwszego członu', data$'sylaby ostatniego członu')$p.value,
-               wilcox.test(data$'słowa pierwszego członu', data$'słowa ostatniego członu')$p.value,
-               wilcox.test(data$'tokeny pierwszego członu', data$'tokeny ostatniego członu')$p.value)
+  median_left <- c(median(data$'L.chars'), median(data$'L.syllables'), 
+                   median(data$'L.words'), median(data$'L.tokens'))
+  median_right <- c(median(data$'R.chars'), median(data$'R.syllables'), 
+                    median(data$'R.words'), median(data$'R.tokens'))
+  mean_left <- c(mean(data$'L.chars'), mean(data$'L.syllables'), 
+                 mean(data$'L.words'), mean(data$'L.tokens'))
+  mean_right <- c(mean(data$'R.chars'), mean(data$'R.syllables'), 
+                  mean(data$'R.words'), mean(data$'R.tokens'))
+  wilcoxon <- c(wilcox.test(data$'L.chars', data$'R.chars')$statistic,
+                wilcox.test(data$'L.syllables', data$'R.syllables')$statistic,
+                wilcox.test(data$'L.words', data$'R.words')$statistic,
+                wilcox.test(data$'L.tokens', data$'R.tokens')$statistic)
+  p_value <- c(wilcox.test(data$'L.chars', data$'R.chars')$p.value,
+               wilcox.test(data$'L.syllables', data$'R.syllables')$p.value,
+               wilcox.test(data$'L.words', data$'R.words')$p.value,
+               wilcox.test(data$'L.tokens', data$'R.tokens')$p.value)
   df_result <- data.frame(cbind(median_left, median_right, mean_left, mean_right, wilcoxon, p_value))
   rownames(df_result) <- c('znaki', 'sylaby', 'słowa', 'tokeny')
   colnames(df_result) <- c('mediana-l', 'mediana-p', 'średnia-l', 'średnia-p', 'W', 'p')
@@ -48,24 +48,24 @@ tab1 <- rbind(tab1a, tab1b, tab1c, tab1d, tab1e)
 
 data <- dane
 #znalezienie proporcji 
-data <- cbind(data, ifelse(data$'znaki pierwszego członu'<data$'znaki ostatniego członu', 1, 0)) 
-data <- cbind(data, ifelse(data$'sylaby pierwszego członu'<data$'sylaby ostatniego członu', 1, 0)) 
-data <- cbind(data, ifelse(data$'słowa pierwszego członu'<data$'słowa ostatniego członu', 1, 0)) 
-data <- cbind(data, ifelse(data$'tokeny pierwszego członu'<data$'tokeny ostatniego członu', 1, 0))
+data <- cbind(data, ifelse(data$'L.chars'<data$'R.chars', 1, 0)) 
+data <- cbind(data, ifelse(data$'L.syllables'<data$'R.syllables', 1, 0)) 
+data <- cbind(data, ifelse(data$'L.words'<data$'R.words', 1, 0)) 
+data <- cbind(data, ifelse(data$'L.tokens'<data$'R.tokens', 1, 0))
 
 colnames(data) <- c(colnames(dane), 'znaki', 'sylaby', 'słowa', 'tokeny')
 
-data_L <- data[data$'pozycja nadrzędnika'=='L', ]
-data_0 <- data[data$'pozycja nadrzędnika'=='0', ]
-data_R <- data[data$'pozycja nadrzędnika'=='R', ]
+data_L <- data[data$'governor.position'=='L', ]
+data_0 <- data[data$'governor.position'=='0', ]
+data_R <- data[data$'governor.position'=='R', ]
 
 
 #pomocnicze do drugiej i trzeciej tabeli - wyrzucam te, gdzie dlugosc mierzona w X jest rowna
 pobierz <- function(data, co){
-  data1 <- data[data$'znaki pierwszego członu' != data$'znaki ostatniego członu', ]
-  data2 <- data[data$'sylaby pierwszego członu' != data$'sylaby ostatniego członu', ]
-  data3 <- data[data$'słowa pierwszego członu' != data$'słowa ostatniego członu', ]
-  data4 <- data[data$'tokeny pierwszego członu' != data$'tokeny ostatniego członu', ]
+  data1 <- data[data$'L.chars' != data$'R.chars', ]
+  data2 <- data[data$'L.syllables' != data$'R.syllables', ]
+  data3 <- data[data$'L.words' != data$'R.words', ]
+  data4 <- data[data$'L.tokens' != data$'R.tokens', ]
   return(c(co(data1$'znaki'), 
            co(data2$'sylaby'), 
            co(data3$'słowa'), 
@@ -84,14 +84,14 @@ pop_R <- pobierz(data_R, sum)[5:8]
 
 #prop test
 test <- function(data1, data2){
-  data1a <- data1[data1$'znaki pierwszego członu' != data1$'znaki ostatniego członu', ]
-  data1b <- data1[data1$'sylaby pierwszego członu' != data1$'sylaby ostatniego członu', ]
-  data1c <- data1[data1$'słowa pierwszego członu' != data1$'słowa ostatniego członu', ]
-  data1d <- data1[data1$'tokeny pierwszego członu' != data1$'tokeny ostatniego członu', ]
-  data2a <- data2[data2$'znaki pierwszego członu' != data2$'znaki ostatniego członu', ]
-  data2b <- data2[data2$'sylaby pierwszego członu' != data2$'sylaby ostatniego członu', ]
-  data2c <- data2[data2$'słowa pierwszego członu' != data2$'słowa ostatniego członu', ]
-  data2d <- data2[data2$'tokeny pierwszego członu' != data2$'tokeny ostatniego członu', ]
+  data1a <- data1[data1$'L.chars' != data1$'R.chars', ]
+  data1b <- data1[data1$'L.syllables' != data1$'R.syllables', ]
+  data1c <- data1[data1$'L.words' != data1$'R.words', ]
+  data1d <- data1[data1$'L.tokens' != data1$'R.tokens', ]
+  data2a <- data2[data2$'L.chars' != data2$'R.chars', ]
+  data2b <- data2[data2$'L.syllables' != data2$'R.syllables', ]
+  data2c <- data2[data2$'L.words' != data2$'R.words', ]
+  data2d <- data2[data2$'L.tokens' != data2$'R.tokens', ]
   return(c(prop.test(x = c(sum(data1a$znaki), sum(data2a$znaki)), n = c(nrow(data1a), nrow(data2a)))$statistic,
            prop.test(x = c(sum(data1b$sylaby), sum(data2b$sylaby)), n = c(nrow(data1b), nrow(data2b)))$statistic,
            prop.test(x = c(sum(data1c$słowa), sum(data2c$słowa)), n = c(nrow(data1c), nrow(data2c)))$statistic,
@@ -117,16 +117,16 @@ library(ggplot2)
 library(gridExtra)
 library(ggExtra)
 wykres <- function(data){
-  data1 <- data[data$'znaki pierwszego członu' != data$'znaki ostatniego członu', ]
-  data2 <- data[data$'sylaby pierwszego członu' != data$'sylaby ostatniego członu', ]
-  data3 <- data[data$'słowa pierwszego członu' != data$'słowa ostatniego członu', ]
-  data4 <- data[data$'tokeny pierwszego członu' != data$'tokeny ostatniego członu', ]
+  data1 <- data[data$'L.chars' != data$'R.chars', ]
+  data2 <- data[data$'L.syllables' != data$'R.syllables', ]
+  data3 <- data[data$'L.words' != data$'R.words', ]
+  data4 <- data[data$'L.tokens' != data$'R.tokens', ]
   
   # Adding a column of the absolute difference for each dataset
-  data1$difference <- abs(data1$'znaki pierwszego członu' - data1$'znaki ostatniego członu')
-  data2$difference <- abs(data2$'sylaby pierwszego członu' - data2$'sylaby ostatniego członu')
-  data3$difference <- abs(data3$'słowa pierwszego członu' - data3$'słowa ostatniego członu')
-  data4$difference <- abs(data4$'tokeny pierwszego członu' - data4$'tokeny ostatniego członu')
+  data1$difference <- abs(data1$'L.chars' - data1$'R.chars')
+  data2$difference <- abs(data2$'L.syllables' - data2$'R.syllables')
+  data3$difference <- abs(data3$'L.words' - data3$'R.words')
+  data4$difference <- abs(data4$'L.tokens' - data4$'R.tokens')
   
   p1 <- ggplot(data1, aes(x=difference, y=znaki)) + geom_point(alpha = 0.2) +
     geom_smooth(method="glm", formula=y~x, se=TRUE, fill = 'deepskyblue', method.args = list(family = binomial), colour = 'red') + 
@@ -155,7 +155,7 @@ wykres <- function(data){
   p2 <- ggMarginal(p2, margins = 'x', colour = 'black')
   p3 <- ggMarginal(p3, margins = 'x', colour = 'black')
   p4 <- ggMarginal(p4, margins = 'x', colour = 'black')
-  return(list(p1=p1, p2=p2, p3=p3, p4=p4))
+  return(list(p1=p1,p2=p2,p3=p3,p4=p4))
 }
 par(mfrow=c(4,3))
 a1 <- wykres(data_0)$p1
@@ -174,32 +174,39 @@ plots_list = list(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12)
 grid.arrange(grobs = plots_list, ncol = 4, nrow = 3)
 # model wieloczynnikowy
 library(emmeans)
-datax <- data[data$`pozycja nadrzędnika`!='M',]
-datax$'pozycja' <- datax$`pozycja nadrzędnika`
 
-data1 <- datax[datax$'znaki pierwszego członu' != datax$'znaki ostatniego członu', ]
-data1$difference <- abs(data1$'znaki pierwszego członu' - data1$'znaki ostatniego członu')
-g1 <- glm(znaki ~ difference * pozycja, family = binomial, data = data1)
-g1_emm <- emmeans(g1, specs = pairwise ~ pozycja)
+# znaki
+data1 <- data[data$'L.chars' != data$'R.chars', ]
+#data1 <- data1[data1$'governor.position'!='M',]
+data1$difference <- abs(data1$'L.chars' - data1$'R.chars')
+g1 <- glm(znaki ~ difference * governor.position, family = binomial, data = data1)
+g1_emm <- emmeans(g1, specs = pairwise ~ governor.position)
 summary(g1)
 summary(g1_emm)
 
-
-data2 <- datax[datax$'sylaby pierwszego członu' != datax$'sylaby ostatniego członu', ]
-data3 <- datax[datax$'słowa pierwszego członu' != datax$'słowa ostatniego członu', ]
-data4 <- datax[datax$'tokeny pierwszego członu' != datax$'tokeny ostatniego członu', ]
-data2$difference <- abs(data2$'sylaby pierwszego członu' - data2$'sylaby ostatniego członu')
-data3$difference <- abs(data3$'słowa pierwszego członu' - data3$'słowa ostatniego członu')
-data4$difference <- abs(data4$'tokeny pierwszego członu' - data4$'tokeny ostatniego członu')
-g2 <- glm(sylaby~difference*pozycja,family=binomial,data=data2)
-g3 <- glm(słowa~difference*pozycja,family=binomial,data=data3)
-g4 <- glm(tokeny~difference*pozycja,family=binomial,data=data4)
+# sylaby
+data2 <- data[data$'L.syllables' != data$'R.syllables', ]
+#data2 <- data2[data2$'governor.position'!='M',]
+data2$difference <- abs(data2$'L.syllables' - data2$'R.syllables')
+g2 <- glm(sylaby ~ difference * governor.position, family = binomial, data = data2)
+g2_emm <- emmeans(g2, specs = pairwise ~ governor.position)
 summary(g2)
+summary(g2_emm)
+
+# słowa
+data3 <- data[data$'L.words' != data$'R.words', ]
+#data3 <- data3[data3$'governor.position'!='M',]
+data3$difference <- abs(data3$'L.words' - data3$'R.words')
+g3 <- glm(słowa ~ difference * governor.position, family = binomial, data = data3)
+g3_emm <- emmeans(g3, specs = pairwise ~ governor.position)
 summary(g3)
+summary(g3_emm)
+
+# tokeny
+data4 <- data[data$'L.tokens' != data$'R.tokens', ]
+#data4 <- data4[data4$'governor.position'!='M',]
+data4$difference <- abs(data4$'L.tokens' - data4$'R.tokens')
+g4 <- glm(tokeny ~ difference * governor.position, family = binomial, data = data4)
+g4_emm <- emmeans(g4, specs = pairwise ~ governor.position)
 summary(g4)
-g1_RasRef <- glm(znaki ~ difference * pozycja, family = binomial, data = data1,
-                 contrasts = list(pozycja = contr.treatment(c("R", "L", "0"))))
-g1_LasRef <- glm(znaki ~ difference * pozycja, family = binomial, data = data1,
-                 contrasts = list(pozycja = contr.treatment(c("L", "0", "R"))))
-summary(g1_RasRef)
-summary(g1_LasRef)
+summary(g4_emm)
