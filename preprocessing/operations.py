@@ -40,7 +40,10 @@ def create_table(lib, phr, meta):
                     res[i].append([gov[1]])  # governor.word
                     res[i].append([gov[4]])  # governor.tag
                     res[i].append([gov[3]])  # governor.pos
-                    res[i].append([gov[5]])  # governor.ms
+                    if gov[5] == '_': # if no ms
+                        res[i].append([''])  # governor.ms
+                    else:
+                        res[i].append([gov[5]])  # governor.ms
                     res[i].append([cur[7]])  # coordination.label
                 res[i].append([cur[2]])  # conjunction.word
                 res[i].append([cur[3]])  # conjunction.tag
@@ -78,7 +81,10 @@ def create_table(lib, phr, meta):
                 res[i].append([a[1]])  # L.head.word
                 res[i].append([a[4]])  # L.head.tag
                 res[i].append([a[3]])  # L.head.pos
-                res[i].append([a[5]])  # L.head.ms
+                if a[5] == '_': # if no ms
+                    res[i].append([''])  # L.head.ms
+                else:
+                    res[i].append([a[5]])  # L.head.ms
                 res[i].append([len(comp1.split())])  # L.words
                 res[i].append([howmany(new1)])  # L.tokens
                 res[i].append([syllables(' '.join(num_words(tks_all)))[0]])  # L.syllables
@@ -97,7 +103,10 @@ def create_table(lib, phr, meta):
                 res[i].append([b[1]])  # R.head.word
                 res[i].append([b[4]])  # R.head.tag
                 res[i].append([b[3]])  # R.head.pos
-                res[i].append([b[5]])  # R.head.ms
+                if b[5] == '_': # if no ms
+                    res[i].append([''])  # R.head.ms
+                else:
+                    res[i].append([b[5]])  # R.head.ms
                 res[i].append([len(comp2.split())])  # R.words
                 res[i].append([howmany(new2)])  # R.tokens
                 res[i].append([syllables(' '.join(num_words(tks_all2)))[0]])  # R.syllables
