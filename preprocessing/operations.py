@@ -47,6 +47,8 @@ def create_table(lib, phr, meta):
                 res[i].append([cur[4]])  # conjunction.pos
                 if cur[5] == '_': # if no ms
                     res[i].append([''])  # conjunction.ms
+                else:
+                    res[i].append([cur[5]])  # conjunction.ms
                 res[i].append([str(conj[j][0])])  # no.conjuncts
 
 

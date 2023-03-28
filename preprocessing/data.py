@@ -61,12 +61,12 @@ def load_json(file1, file2, file3):
 def save(file, tab):
     n = 0
     with open(file, 'w') as f:
-        f.write('governor.position\tgovernor.word\tgovernor.tag\tgovernor.pos\tgovernor.ms\tcoordination.label\tconjunction.word\tconjunction.tag\tno.conjuncts\tL.conjunct\tL.conjunct.syllabylized\tL.dep.label\tL.head.word\tL.head.tag\tL.head.pos\tL.head.ms\tL.words\tL.tokens\tL.syllables\tL.chars\tis.L.continuous\tR.conjunct\tR.conjunct.syllabylized\tR.dep.label\tR.head.word\tR.head.tag\tR.head.pos\tR.head.ms\tR.words\tR.tokens\tR.syllables\tR.chars\tis.R.continuous\tsentence\tsent_id\tsent.file\n')
+        f.write('governor.position\tgovernor.word\tgovernor.tag\tgovernor.pos\tgovernor.ms\tcoordination.label\tconjunction.word\tconjunction.tag\tconjunction.pos\tconjunction.ms\tno.conjuncts\tL.conjunct\tL.conjunct.syllabylized\tL.dep.label\tL.head.word\tL.head.tag\tL.head.pos\tL.head.ms\tL.words\tL.tokens\tL.syllables\tL.chars\tis.L.continuous\tR.conjunct\tR.conjunct.syllabylized\tR.dep.label\tR.head.word\tR.head.tag\tR.head.pos\tR.head.ms\tR.words\tR.tokens\tR.syllables\tR.chars\tis.R.continuous\tsentence\tsent_id\tsent.file\n')
         for i in tab:
             a = 0
             n += 1
             for j in i:
                 f.write(str(j[0]))
-                if a != 36:
+                if a != 38:
                     f.write('\t')
             f.write('\n')
