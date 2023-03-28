@@ -61,12 +61,12 @@ def load_json(file1, file2, file3):
 def save(file, tab):
     n = 0
     with open(file, 'w') as f:
-        f.write('pozycja nadrzędnika\tnadrzędnik\ttag nadrzędnika\tpełny tag\tetykieta koordynacji\tliczba członów\tspójnik\ttag spójnika\tsłowa pierwszego członu\ttokeny pierwszego członu\tsylaby pierwszego członu\tznaki pierwszego członu\tpierwszy człon\tczy pierwszy człon jest ciągły\tpierwszy człon podzielony na sylaby\tgłowa pierwszego członu\ttag głowy pierwszego członu\tpełny tag głowy\tsłowa ostatniego członu\ttokeny ostatniego członu\tsylaby ostatniego członu\tznaki ostatniego członu\tostatni człon\tczy ostatni człon jest ciągły\tostatni człon podzielony na sylaby\tgłowa ostatniego członu\ttag głowy ostatniego członu\tpełny tag głowy\tzdanie\tsent_id\tplik\n')
+        f.write('governor.position\tgovernor.word\tgovernor.tag\tcoordination.label\tconjunction.word\tconjunction.tag\tno.conjuncts\tL.conjunct\tL.conjunct.syllabylized\tL.head.word\tL.head.tag\tL.words\tL.tokens\tL.syllables\tL.chars\tis.L.continuous\tR.conjunct\tR.conjunct.syllabylized\tR.head.word\tR.head.tag\tR.words\tR.tokens\tR.syllables\tR.chars\tis.R.continuous\tsentence\tsent_id\tsent.file\n')
         for i in tab:
             a = 0
             n += 1
             for j in i:
                 f.write(str(j[0]))
-                if a != 31:
+                if a != 28:
                     f.write('\t')
             f.write('\n')
