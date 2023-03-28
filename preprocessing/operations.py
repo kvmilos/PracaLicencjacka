@@ -27,7 +27,7 @@ def create_table(lib, phr, meta):
                 cur = sen[j-1]  # current
                 a, b = conj[j][1], conj[j][2]  # L.head, R.head
                 if int(cur[6]) == 0:  # if no governor
-                    res[i].extend([['0'], [''], [''], [cur[7]]])  # governor.position, governor.word, governor.tag, ETYKIETA KOORDYNACJI
+                    res[i].extend([['0'], [''], [''], [''], [''], [cur[7]]])  # governor.position, governor.word, governor.tag, governor.pos, governor.ms, coordination.label
                 else:
                     x = int(sen[int(cur[6])-1][0])
                     if x > int(a[0]) and x > int(b[0]):
