@@ -177,16 +177,73 @@ library(emmeans)
 
 # znaki
 data1 <- data[data$'L.chars' != data$'R.chars', ]
-#data1 <- data1[data1$'governor.position'!='M',]
+data1 <- data1[data1$'governor.position'!='M',]
 data1$difference <- abs(data1$'L.chars' - data1$'R.chars')
 g1 <- glm(znaki ~ difference * governor.position, family = binomial, data = data1)
 g1_emm <- emmeans(g1, specs = pairwise ~ governor.position)
 summary(g1)
 summary(g1_emm)
 
+l1 <- ggplot(data1, aes(x=difference, y=znaki)) + geom_point(alpha = 0.2) +
+  geom_smooth(method="glm", formula=y~x, se=TRUE, fill = 'deepskyblue', method.args = list(family = binomial), colour = 'red') + 
+  xlab("Absolute Difference of Conjunct Lengths") + 
+  ylab("Proportion of Shorter Left Conjuncts") + facet_wrap(~ governor.position) +
+  ggtitle("znaki") + theme_bw()
+l2 <- ggplot(data2, aes(x=difference, y=sylaby)) + geom_point(alpha = 0.2) +
+  geom_smooth(method="glm", formula=y~x, se=TRUE, fill = 'deepskyblue', method.args = list(family = binomial), colour = 'red') + 
+  xlab("Absolute Difference of Conjunct Lengths") + 
+  ylab("Proportion of Shorter Left Conjuncts") + facet_wrap(~ governor.position) +
+  ggtitle("sylaby") + theme_bw()
+l3 <- ggplot(data3, aes(x=difference, y=słowa)) + geom_point(alpha = 0.2) +
+  geom_smooth(method="glm", formula=y~x, se=TRUE, fill = 'deepskyblue', method.args = list(family = binomial), colour = 'red') + 
+  xlab("Absolute Difference of Conjunct Lengths") + 
+  ylab("Proportion of Shorter Left Conjuncts") + facet_wrap(~ governor.position) +
+  ggtitle("slowa") + theme_bw()
+l4 <- ggplot(data4, aes(x=difference, y=tokeny)) + geom_point(alpha = 0.2) +
+  geom_smooth(method="glm", formula=y~x, se=TRUE, fill = 'deepskyblue', method.args = list(family = binomial), colour = 'red') + 
+  xlab("Absolute Difference of Conjunct Lengths") + 
+  ylab("Proportion of Shorter Left Conjuncts") + facet_wrap(~ governor.position) +
+  ggtitle("tokeny") + theme_bw()
+plots = list(l1, l2, l3, l4)
+grid.arrange(grobs = plots, ncol = 1, nrow = 4)
+
+
+k1 <- ggplot(data = data1, mapping = aes(x = difference, y = znaki, color = governor.position, fill = governor.position)) + 
+  geom_point(alpha = 0.2) + 
+  geom_smooth(method="glm", formula=y~x, se=TRUE, alpha = 0.3, method.args = list(family = binomial)) + 
+  xlab("Absolute Difference of Conjunct Lengths") + 
+  ylab("Proportion of Shorter Left Conjuncts") +
+  ggtitle("znaki") + theme_bw()
+k2 <- ggplot(data = data2, mapping = aes(x = difference, y = sylaby, color = governor.position, fill = governor.position)) + 
+  geom_point(alpha = 0.2) + 
+  geom_smooth(method="glm", formula=y~x, se=TRUE, alpha = 0.3, method.args = list(family = binomial)) + 
+  xlab("Absolute Difference of Conjunct Lengths") + 
+  ylab("Proportion of Shorter Left Conjuncts") +
+  ggtitle("sylaby") + theme_bw()
+k3 <- ggplot(data = data3, mapping = aes(x = difference, y = słowa, color = governor.position, fill = governor.position)) + 
+  geom_point(alpha = 0.2) + 
+  geom_smooth(method="glm", formula=y~x, se=TRUE, alpha = 0.3, method.args = list(family = binomial)) + 
+  xlab("Absolute Difference of Conjunct Lengths") + 
+  ylab("Proportion of Shorter Left Conjuncts") +
+  ggtitle("slowa") + theme_bw()
+k4 <- ggplot(data = data4, mapping = aes(x = difference, y = tokeny, color = governor.position, fill = governor.position)) + 
+  geom_point(alpha = 0.2) + 
+  geom_smooth(method="glm", formula=y~x, se=TRUE, alpha = 0.3, method.args = list(family = binomial)) + 
+  xlab("Absolute Difference of Conjunct Lengths") + 
+  ylab("Proportion of Shorter Left Conjuncts") +
+  ggtitle("tokeny") + theme_bw()
+plots = list(k1, k2, k3, k4)
+grid.arrange(grobs = plots, ncol = 2, nrow = 2)
+
+geom_point(alpha = 0.2) + 
+  geom_smooth(method="glm", formula=y~x, se=TRUE, fill = 'grey', alpha = 0.4, method.args = list(family = binomial)) + 
+  xlab("Absolute Difference of Conjunct Lengths") + 
+  ylab("Proportion of Shorter Left Conjuncts") +
+  ggtitle("znaki") + theme_bw()
+
 # sylaby
 data2 <- data[data$'L.syllables' != data$'R.syllables', ]
-#data2 <- data2[data2$'governor.position'!='M',]
+data2 <- data2[data2$'governor.position'!='M',]
 data2$difference <- abs(data2$'L.syllables' - data2$'R.syllables')
 g2 <- glm(sylaby ~ difference * governor.position, family = binomial, data = data2)
 g2_emm <- emmeans(g2, specs = pairwise ~ governor.position)
@@ -195,7 +252,7 @@ summary(g2_emm)
 
 # słowa
 data3 <- data[data$'L.words' != data$'R.words', ]
-#data3 <- data3[data3$'governor.position'!='M',]
+data3 <- data3[data3$'governor.position'!='M',]
 data3$difference <- abs(data3$'L.words' - data3$'R.words')
 g3 <- glm(słowa ~ difference * governor.position, family = binomial, data = data3)
 g3_emm <- emmeans(g3, specs = pairwise ~ governor.position)
@@ -204,9 +261,10 @@ summary(g3_emm)
 
 # tokeny
 data4 <- data[data$'L.tokens' != data$'R.tokens', ]
-#data4 <- data4[data4$'governor.position'!='M',]
+data4 <- data4[data4$'governor.position'!='M',]
 data4$difference <- abs(data4$'L.tokens' - data4$'R.tokens')
 g4 <- glm(tokeny ~ difference * governor.position, family = binomial, data = data4)
 g4_emm <- emmeans(g4, specs = pairwise ~ governor.position)
 summary(g4)
 summary(g4_emm)
+
