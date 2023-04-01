@@ -4,6 +4,7 @@ library(tidyverse)
 dane <- read_delim("~/Desktop/Licencjat/tabela.csv", 
                    delim = "\t", escape_double = FALSE, trim_ws = TRUE, quote = "")
 
+table(dane$conjunction.word)
 # Podział danych ze względu na pozycję nadrzędnika
 dane_0 <- dane[dane$'governor.position'=="0", ]
 dane_L <- dane[dane$'governor.position'=="L", ]
@@ -180,66 +181,10 @@ data1 <- data[data$'L.chars' != data$'R.chars', ]
 data1 <- data1[data1$'governor.position'!='M',]
 data1$difference <- abs(data1$'L.chars' - data1$'R.chars')
 g1 <- glm(znaki ~ difference * governor.position, family = binomial, data = data1)
-g1_emm <- emmeans(g1, specs = pairwise ~ governor.position)
+g1_emm <- emmeans(g1, specs = pairwise ~ governor.position)  # sprawdzić, czy same nachylenia są istotnie różne
 summary(g1)
 summary(g1_emm)
 
-l1 <- ggplot(data1, aes(x=difference, y=znaki)) + geom_point(alpha = 0.2) +
-  geom_smooth(method="glm", formula=y~x, se=TRUE, fill = 'deepskyblue', method.args = list(family = binomial), colour = 'red') + 
-  xlab("Absolute Difference of Conjunct Lengths") + 
-  ylab("Proportion of Shorter Left Conjuncts") + facet_wrap(~ governor.position) +
-  ggtitle("znaki") + theme_bw()
-l2 <- ggplot(data2, aes(x=difference, y=sylaby)) + geom_point(alpha = 0.2) +
-  geom_smooth(method="glm", formula=y~x, se=TRUE, fill = 'deepskyblue', method.args = list(family = binomial), colour = 'red') + 
-  xlab("Absolute Difference of Conjunct Lengths") + 
-  ylab("Proportion of Shorter Left Conjuncts") + facet_wrap(~ governor.position) +
-  ggtitle("sylaby") + theme_bw()
-l3 <- ggplot(data3, aes(x=difference, y=słowa)) + geom_point(alpha = 0.2) +
-  geom_smooth(method="glm", formula=y~x, se=TRUE, fill = 'deepskyblue', method.args = list(family = binomial), colour = 'red') + 
-  xlab("Absolute Difference of Conjunct Lengths") + 
-  ylab("Proportion of Shorter Left Conjuncts") + facet_wrap(~ governor.position) +
-  ggtitle("slowa") + theme_bw()
-l4 <- ggplot(data4, aes(x=difference, y=tokeny)) + geom_point(alpha = 0.2) +
-  geom_smooth(method="glm", formula=y~x, se=TRUE, fill = 'deepskyblue', method.args = list(family = binomial), colour = 'red') + 
-  xlab("Absolute Difference of Conjunct Lengths") + 
-  ylab("Proportion of Shorter Left Conjuncts") + facet_wrap(~ governor.position) +
-  ggtitle("tokeny") + theme_bw()
-plots = list(l1, l2, l3, l4)
-grid.arrange(grobs = plots, ncol = 1, nrow = 4)
-
-
-k1 <- ggplot(data = data1, mapping = aes(x = difference, y = znaki, color = governor.position, fill = governor.position)) + 
-  geom_point(alpha = 0.2) + 
-  geom_smooth(method="glm", formula=y~x, se=TRUE, alpha = 0.3, method.args = list(family = binomial)) + 
-  xlab("Absolute Difference of Conjunct Lengths") + 
-  ylab("Proportion of Shorter Left Conjuncts") +
-  ggtitle("znaki") + theme_bw()
-k2 <- ggplot(data = data2, mapping = aes(x = difference, y = sylaby, color = governor.position, fill = governor.position)) + 
-  geom_point(alpha = 0.2) + 
-  geom_smooth(method="glm", formula=y~x, se=TRUE, alpha = 0.3, method.args = list(family = binomial)) + 
-  xlab("Absolute Difference of Conjunct Lengths") + 
-  ylab("Proportion of Shorter Left Conjuncts") +
-  ggtitle("sylaby") + theme_bw()
-k3 <- ggplot(data = data3, mapping = aes(x = difference, y = słowa, color = governor.position, fill = governor.position)) + 
-  geom_point(alpha = 0.2) + 
-  geom_smooth(method="glm", formula=y~x, se=TRUE, alpha = 0.3, method.args = list(family = binomial)) + 
-  xlab("Absolute Difference of Conjunct Lengths") + 
-  ylab("Proportion of Shorter Left Conjuncts") +
-  ggtitle("slowa") + theme_bw()
-k4 <- ggplot(data = data4, mapping = aes(x = difference, y = tokeny, color = governor.position, fill = governor.position)) + 
-  geom_point(alpha = 0.2) + 
-  geom_smooth(method="glm", formula=y~x, se=TRUE, alpha = 0.3, method.args = list(family = binomial)) + 
-  xlab("Absolute Difference of Conjunct Lengths") + 
-  ylab("Proportion of Shorter Left Conjuncts") +
-  ggtitle("tokeny") + theme_bw()
-plots = list(k1, k2, k3, k4)
-grid.arrange(grobs = plots, ncol = 2, nrow = 2)
-
-geom_point(alpha = 0.2) + 
-  geom_smooth(method="glm", formula=y~x, se=TRUE, fill = 'grey', alpha = 0.4, method.args = list(family = binomial)) + 
-  xlab("Absolute Difference of Conjunct Lengths") + 
-  ylab("Proportion of Shorter Left Conjuncts") +
-  ggtitle("znaki") + theme_bw()
 
 # sylaby
 data2 <- data[data$'L.syllables' != data$'R.syllables', ]
@@ -267,4 +212,57 @@ g4 <- glm(tokeny ~ difference * governor.position, family = binomial, data = dat
 g4_emm <- emmeans(g4, specs = pairwise ~ governor.position)
 summary(g4)
 summary(g4_emm)
+
+
+l1 <- ggplot(data1, aes(x=difference, y=znaki)) + geom_point(alpha = 0.2) +
+  geom_smooth(method="glm", formula=y~x, se=TRUE, lwd = 0.35, fill = 'deepskyblue', method.args = list(family = binomial), colour = 'red') + 
+  xlab("Absolute Difference of Conjunct Lengths") + 
+  ylab("Proportion of Shorter Left Conjuncts") + facet_wrap(~ governor.position) +
+  ggtitle("znaki") + theme_bw()
+l2 <- ggplot(data2, aes(x=difference, y=sylaby)) + geom_point(alpha = 0.2) +
+  geom_smooth(method="glm", formula=y~x, se=TRUE, lwd = 0.35, fill = 'deepskyblue', method.args = list(family = binomial), colour = 'red') + 
+  xlab("Absolute Difference of Conjunct Lengths") + 
+  ylab("Proportion of Shorter Left Conjuncts") + facet_wrap(~ governor.position) +
+  ggtitle("sylaby") + theme_bw()
+l3 <- ggplot(data3, aes(x=difference, y=słowa)) + geom_point(alpha = 0.2) +
+  geom_smooth(method="glm", formula=y~x, se=TRUE, lwd = 0.35, fill = 'deepskyblue', method.args = list(family = binomial), colour = 'red') + 
+  xlab("Absolute Difference of Conjunct Lengths") + 
+  ylab("Proportion of Shorter Left Conjuncts") + facet_wrap(~ governor.position) +
+  ggtitle("slowa") + theme_bw()
+l4 <- ggplot(data4, aes(x=difference, y=tokeny)) + geom_point(alpha = 0.2) +
+  geom_smooth(method="glm", formula=y~x, se=TRUE, lwd = 0.35, fill = 'deepskyblue', method.args = list(family = binomial), colour = 'red') + 
+  xlab("Absolute Difference of Conjunct Lengths") + 
+  ylab("Proportion of Shorter Left Conjuncts") + facet_wrap(~ governor.position) +
+  ggtitle("tokeny") + theme_bw()
+plots = list(l1, l2, l3, l4)
+grid.arrange(grobs = plots, ncol = 1, nrow = 4)
+
+
+k1 <- ggplot(data = data1, mapping = aes(x = difference, y = znaki, color = governor.position, fill = governor.position)) + 
+  geom_point(alpha = 0.2) + 
+  geom_smooth(method="glm", formula=y~x, se=TRUE, lwd = 0.35, alpha = 0.3, method.args = list(family = binomial)) + 
+  xlab("Absolute Difference of Conjunct Lengths") + 
+  ylab("Proportion of Shorter Left Conjuncts") +
+  ggtitle("znaki") + theme_bw() + scale_color_manual(values = c("red", "green", "royalblue", "magenta"))
+k2 <- ggplot(data = data2, mapping = aes(x = difference, y = sylaby, color = governor.position, fill = governor.position)) + 
+  geom_point(alpha = 0.2) + 
+  geom_smooth(method="glm", formula=y~x, se=TRUE, lwd = 0.35, alpha = 0.3, method.args = list(family = binomial)) + 
+  xlab("Absolute Difference of Conjunct Lengths") + 
+  ylab("Proportion of Shorter Left Conjuncts") +
+  ggtitle("sylaby") + theme_bw() + scale_color_manual(values = c("red", "green", "royalblue", "magenta"))
+k3 <- ggplot(data = data3, mapping = aes(x = difference, y = słowa, color = governor.position, fill = governor.position)) + 
+  geom_point(alpha = 0.2) + 
+  geom_smooth(method="glm", formula=y~x, se=TRUE, lwd = 0.35, alpha = 0.3, method.args = list(family = binomial)) + 
+  xlab("Absolute Difference of Conjunct Lengths") + 
+  ylab("Proportion of Shorter Left Conjuncts") +
+  ggtitle("slowa") + theme_bw() + scale_color_manual(values = c("red", "green", "royalblue", "magenta"))
+k4 <- ggplot(data = data4, mapping = aes(x = difference, y = tokeny, color = governor.position, fill = governor.position)) + 
+  geom_point(alpha = 0.2) + 
+  geom_smooth(method="glm", formula=y~x, se=TRUE, lwd = 0.35, alpha = 0.3, method.args = list(family = binomial)) + 
+  xlab("Absolute Difference of Conjunct Lengths") + 
+  ylab("Proportion of Shorter Left Conjuncts") +
+  ggtitle("tokeny") + theme_bw() + scale_color_manual(values = c("red", "green", "royalblue", "magenta"))
+plots = list(k1, k2, k3, k4)
+grid.arrange(grobs = plots, ncol = 2, nrow = 2)
+# grid.arrange(grobs = plots, ncol = 2, nrow = 4)
 
