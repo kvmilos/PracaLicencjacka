@@ -5,6 +5,8 @@ dane <- read_delim("~/Desktop/Licencjat/tabela.csv",
                    delim = "\t", escape_double = FALSE, trim_ws = TRUE, quote = "")
 
 table(dane$conjunction.word)
+table(dane$governor.position)
+table(dane$no.conjuncts)
 # Podział danych ze względu na pozycję nadrzędnika
 dane_0 <- dane[dane$'governor.position'=="0", ]
 dane_L <- dane[dane$'governor.position'=="L", ]
@@ -16,6 +18,7 @@ nrow(dane_0)
 nrow(dane_L)
 nrow(dane_M)
 nrow(dane_R)
+table(dane$conjunction.word)
 # Funkcja tworząca tabelkę z wynikami mediany, średniej, testu Wilcoxona i wartości p
 t1 <- function(data){
   median_left <- c(median(data$'L.chars'), median(data$'L.syllables'), 
