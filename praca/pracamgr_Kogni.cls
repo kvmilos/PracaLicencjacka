@@ -264,7 +264,7 @@
 		  \vspace{2cm plus 1.5fill}
 		  \begin{flushright}\large
 			\begin{tabular}{l}
-			  Praca wykonana pod kierunkiem
+			  Praca wykonana pod kierunkiem \\
 			  \bfseries \@opiekun
 			\end{tabular}
 		  \end{flushright}
