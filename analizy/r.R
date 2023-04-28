@@ -14,6 +14,7 @@ dane_M <- dane[dane$'governor.position'=="M", ]
 dane_R <- dane[dane$'governor.position'=="R", ]
 
 # Wyświetlenie liczby wierszy w każdej z podzielonych grup
+nrow(dane)
 nrow(dane_0)
 nrow(dane_L)
 nrow(dane_M)
@@ -87,7 +88,7 @@ prawy_number <- pobierz(data_R, sum)[1:4]
 pop_R <- pobierz(data_R, sum)[5:8]
 
 #prop test
-test <- function(data1, data2){
+testy <- function(data1, data2){
   data1a <- data1[data1$'L.chars' != data1$'R.chars', ]
   data1b <- data1[data1$'L.syllables' != data1$'R.syllables', ]
   data1c <- data1[data1$'L.words' != data1$'R.words', ]
@@ -106,12 +107,12 @@ test <- function(data1, data2){
            prop.test(x = c(sum(data1d$tokeny), sum(data2d$tokeny)), n = c(nrow(data1a), nrow(data2d)))$p.value))
 }
 
-tab2 <- data.frame(lewy_proportion, lewy_number, pop_L, prawy_proportion, prawy_number, pop_R, test(data_L, data_R)[1:4], test(data_L, data_R)[5:8])
+tab2 <- data.frame(lewy_proportion, lewy_number, pop_L, prawy_proportion, prawy_number, pop_R, testy(data_L, data_R)[1:4], testy(data_L, data_R)[5:8])
 colnames(tab2) <- c('%_L', '#_L', 'z ilu', '%_R', '#_R', 'z ilu', 'chi_2', 'p_value')
 rownames(tab2) <- c('znaki', 'sylaby', 'słowa', 'tokeny')
 tab2
 
-tab3 <- data.frame(proportion_0, number_0, pop_0, test(data_L, data_0)[1:4], test(data_L, data_0)[5:8], test(data_R, data_0)[1:4], test(data_R, data_0)[5:8])
+tab3 <- data.frame(proportion_0, number_0, pop_0, testy(data_L, data_0)[1:4], testy(data_L, data_0)[5:8], testy(data_R, data_0)[1:4], testy(data_R, data_0)[5:8])
 colnames(tab3) <- c('%_0', '#_0', 'z ilu', 'chi2 Lvs0', 'p_val Lvs0', 'chi2 Rvs0', 'p_val Rvs0')
 rownames(tab3) <- c('znaki', 'sylaby', 'słowa', 'tokeny')
 tab3
@@ -120,62 +121,62 @@ tab3
 library(ggplot2)
 library(gridExtra)
 library(ggExtra)
-wykres <- function(data){
-  data1 <- data[data$'L.chars' != data$'R.chars', ]
-  data2 <- data[data$'L.syllables' != data$'R.syllables', ]
-  data3 <- data[data$'L.words' != data$'R.words', ]
-  data4 <- data[data$'L.tokens' != data$'R.tokens', ]
-  
-  # Adding a column of the absolute difference for each dataset
-  data1$difference <- abs(data1$'L.chars' - data1$'R.chars')
-  data2$difference <- abs(data2$'L.syllables' - data2$'R.syllables')
-  data3$difference <- abs(data3$'L.words' - data3$'R.words')
-  data4$difference <- abs(data4$'L.tokens' - data4$'R.tokens')
-  
-  p1 <- ggplot(data1, aes(x=difference, y=znaki)) + geom_point(alpha = 0.2) +
-    geom_smooth(method="glm", formula=y~x, se=TRUE, fill = 'deepskyblue', method.args = list(family = binomial), colour = 'red') + 
-    xlab("Absolute Difference of Conjunct Lengths") + 
-    ylab("Proportion of Shorter Left Conjuncts") + 
-    ggtitle("znaki") + theme_bw()
-  
-  p2 <- ggplot(data2, aes(x=difference, y=sylaby)) + geom_point(alpha = 0.2) +
-    geom_smooth(method="glm", formula=y~x, se=TRUE, fill = 'deepskyblue', method.args = list(family = binomial), colour = 'red') + 
-    xlab("Absolute Difference of Conjunct Lengths") + 
-    ylab("Proportion of Shorter Left Conjuncts") + 
-    ggtitle("sylaby") + theme_bw()
-  
-  p3 <- ggplot(data3, aes(x=difference, y=słowa)) + geom_point(alpha = 0.2) +
-    geom_smooth(method="glm", formula=y~x, se=TRUE, fill = 'deepskyblue', method.args = list(family = binomial), colour = 'red') + 
-    xlab("Absolute Difference of Conjunct Lengths") + 
-    ylab("Proportion of Shorter Left Conjuncts") + 
-    ggtitle("słowa") + theme_bw()
-  
-  p4 <- ggplot(data4, aes(x=difference, y=tokeny)) + geom_point(alpha = 0.2) +
-    geom_smooth(method="glm", formula=y~x, se=TRUE, fill = 'deepskyblue', method.args = list(family = binomial), colour = 'red') + 
-    xlab("Absolute Difference of Conjunct Lengths") + 
-    ylab("Proportion of Shorter Left Conjuncts") + 
-    ggtitle("tokeny") + theme_bw()
-  p1 <- ggMarginal(p1, margins = 'x', colour = 'black')
-  p2 <- ggMarginal(p2, margins = 'x', colour = 'black')
-  p3 <- ggMarginal(p3, margins = 'x', colour = 'black')
-  p4 <- ggMarginal(p4, margins = 'x', colour = 'black')
-  return(list(p1=p1,p2=p2,p3=p3,p4=p4))
-}
-par(mfrow=c(4,3))
-a1 <- wykres(data_0)$p1
-a2 <- wykres(data_0)$p2
-a3 <- wykres(data_0)$p3
-a4 <- wykres(data_0)$p4
-a5 <- wykres(data_L)$p1
-a6 <- wykres(data_L)$p2
-a7 <- wykres(data_L)$p3
-a8 <- wykres(data_L)$p4
-a9 <- wykres(data_R)$p1
-a10 <- wykres(data_R)$p2
-a11 <- wykres(data_R)$p3
-a12 <- wykres(data_R)$p4
-plots_list = list(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12)
-grid.arrange(grobs = plots_list, ncol = 4, nrow = 3)
+# wykres <- function(data){
+#   data1 <- data[data$'L.chars' != data$'R.chars', ]
+#   data2 <- data[data$'L.syllables' != data$'R.syllables', ]
+#   data3 <- data[data$'L.words' != data$'R.words', ]
+#   data4 <- data[data$'L.tokens' != data$'R.tokens', ]
+#   
+#   # Adding a column of the absolute difference for each dataset
+#   data1$difference <- abs(data1$'L.chars' - data1$'R.chars')
+#   data2$difference <- abs(data2$'L.syllables' - data2$'R.syllables')
+#   data3$difference <- abs(data3$'L.words' - data3$'R.words')
+#   data4$difference <- abs(data4$'L.tokens' - data4$'R.tokens')
+#   
+#   p1 <- ggplot(data1, aes(x=difference, y=znaki)) + geom_point(alpha = 0.2) +
+#     geom_smooth(method="glm", formula=y~x, se=TRUE, fill = 'deepskyblue', method.args = list(family = binomial), colour = 'red') + 
+#     xlab("Absolute Difference of Conjunct Lengths") + 
+#     ylab("Proportion of Shorter Left Conjuncts") + 
+#     ggtitle("znaki") + theme_bw()
+#   
+#   p2 <- ggplot(data2, aes(x=difference, y=sylaby)) + geom_point(alpha = 0.2) +
+#     geom_smooth(method="glm", formula=y~x, se=TRUE, fill = 'deepskyblue', method.args = list(family = binomial), colour = 'red') + 
+#     xlab("Absolute Difference of Conjunct Lengths") + 
+#     ylab("Proportion of Shorter Left Conjuncts") + 
+#     ggtitle("sylaby") + theme_bw()
+#   
+#   p3 <- ggplot(data3, aes(x=difference, y=słowa)) + geom_point(alpha = 0.2) +
+#     geom_smooth(method="glm", formula=y~x, se=TRUE, fill = 'deepskyblue', method.args = list(family = binomial), colour = 'red') + 
+#     xlab("Absolute Difference of Conjunct Lengths") + 
+#     ylab("Proportion of Shorter Left Conjuncts") + 
+#     ggtitle("słowa") + theme_bw()
+#   
+#   p4 <- ggplot(data4, aes(x=difference, y=tokeny)) + geom_point(alpha = 0.2) +
+#     geom_smooth(method="glm", formula=y~x, se=TRUE, fill = 'deepskyblue', method.args = list(family = binomial), colour = 'red') + 
+#     xlab("Absolute Difference of Conjunct Lengths") + 
+#     ylab("Proportion of Shorter Left Conjuncts") + 
+#     ggtitle("tokeny") + theme_bw()
+#   p1 <- ggMarginal(p1, margins = 'x', colour = 'black')
+#   p2 <- ggMarginal(p2, margins = 'x', colour = 'black')
+#   p3 <- ggMarginal(p3, margins = 'x', colour = 'black')
+#   p4 <- ggMarginal(p4, margins = 'x', colour = 'black')
+#   return(list(p1=p1,p2=p2,p3=p3,p4=p4))
+# }
+# par(mfrow=c(4,3))
+# a1 <- wykres(data_0)$p1
+# a2 <- wykres(data_0)$p2
+# a3 <- wykres(data_0)$p3
+# a4 <- wykres(data_0)$p4
+# a5 <- wykres(data_L)$p1
+# a6 <- wykres(data_L)$p2
+# a7 <- wykres(data_L)$p3
+# a8 <- wykres(data_L)$p4
+# a9 <- wykres(data_R)$p1
+# a10 <- wykres(data_R)$p2
+# a11 <- wykres(data_R)$p3
+# a12 <- wykres(data_R)$p4
+# plots_list = list(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12)
+# grid.arrange(grobs = plots_list, ncol = 4, nrow = 3)
 # model wieloczynnikowy
 library(emmeans)
 
