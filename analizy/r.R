@@ -218,8 +218,7 @@ g4_emm <- emmeans(g4, specs = pairwise ~ governor.position)
 summary(g4)
 summary(g4_emm)
 
-library(tikzDevice)
-tikz('~/Desktop/Licencjat/analizy/wykresy.tex',width=4,height=6)
+#quartz(type = 'pdf', file = '~/Desktop/Licencjat/analizy/wykresy1.pdf')
 l1 <- ggplot(data1, aes(x=difference, y=znaki)) + geom_point(alpha = 0.2) +
   geom_smooth(method="glm", formula=y~x, se=TRUE, lwd = 0.35, fill = 'deepskyblue', method.args = list(family = binomial), colour = 'red') + 
   xlab("Moduł z róźnicy długości członów") + ylab("") + facet_wrap(~ governor.position) +
@@ -238,32 +237,40 @@ l4 <- ggplot(data4, aes(x=difference, y=tokeny)) + geom_point(alpha = 0.2) +
   ggtitle("Tokeny") + theme_bw()
 plots = list(l1, l2, l3, l4)
 grid.arrange(grobs = plots, ncol = 1, nrow = 4, left = "Proporcja krótszego członu z lewej")
-dev.off()
-k1 <- ggplot(data = data1, mapping = aes(x = difference, y = znaki, color = governor.position, fill = governor.position)) + 
+#dev.off()
+
+quartz(type = 'pdf', file = '~/Desktop/Licencjat/analizy/wykresy2.pdf', width = 9, height = 5)
+k1 <- ggplot(data = data1, mapping = aes(x = difference, y = znaki, color = governor.position, fill = governor.position, linetype = governor.position)) + 
   geom_point(alpha = 0.2) + 
   geom_smooth(method="glm", formula=y~x, se=TRUE, lwd = 0.35, alpha = 0.3, method.args = list(family = binomial)) + 
   xlab("Moduł z róźnicy długości członów") + 
   ylab("Proporcja krótszego członu z lewej") +
-  ggtitle("znaki") + theme_bw() + scale_color_manual(values = c("red", "green", "royalblue", "magenta"))
-k2 <- ggplot(data = data2, mapping = aes(x = difference, y = sylaby, color = governor.position, fill = governor.position)) + 
+  ggtitle("Znaki") + theme_bw() + scale_color_manual(labels = c('brak', 'z lewej strony', 'z prawej strony'), values = c("red", "green", "royalblue")) + scale_fill_manual(labels = c('brak', 'z lewej strony', 'z prawej strony'), values = c("red", "green", "royalblue")) + scale_linetype_manual(labels = c('brak', 'z lewej strony', 'z prawej strony'), values = c('solid', 'twodash', 'dotted')) + 
+  guides(fill=guide_legend(title="Nadrzędnik:"), color=guide_legend(title="Nadrzędnik:"), linetype=guide_legend(title="Nadrzędnik:"))
+k2 <- ggplot(data = data2, mapping = aes(x = difference, y = sylaby, color = governor.position, fill = governor.position, linetype = governor.position)) + 
   geom_point(alpha = 0.2) + 
   geom_smooth(method="glm", formula=y~x, se=TRUE, lwd = 0.35, alpha = 0.3, method.args = list(family = binomial)) + 
   xlab("Moduł z róźnicy długości członów") + 
   ylab("Proporcja krótszego członu z lewej") +
-  ggtitle("sylaby") + theme_bw() + scale_color_manual(values = c("red", "green", "royalblue", "magenta"))
-k3 <- ggplot(data = data3, mapping = aes(x = difference, y = słowa, color = governor.position, fill = governor.position)) + 
+  ggtitle("Sylaby") + theme_bw() + scale_color_manual(labels = c('brak', 'z lewej strony', 'z prawej strony'), values = c("red", "green", "royalblue")) + scale_fill_manual(labels = c('brak', 'z lewej strony', 'z prawej strony'), values = c("red", "green", "royalblue")) + scale_linetype_manual(labels = c('brak', 'z lewej strony', 'z prawej strony'), values = c('solid', 'twodash', 'dotted')) +
+  guides(fill=guide_legend(title="Nadrzędnik:"), color=guide_legend(title="Nadrzędnik:"), linetype=guide_legend(title="Nadrzędnik:"))
+k3 <- ggplot(data = data3, mapping = aes(x = difference, y = słowa, color = governor.position, fill = governor.position, linetype = governor.position)) + 
   geom_point(alpha = 0.2) + 
   geom_smooth(method="glm", formula=y~x, se=TRUE, lwd = 0.35, alpha = 0.3, method.args = list(family = binomial)) + 
   xlab("Moduł z róźnicy długości członów") + 
   ylab("Proporcja krótszego członu z lewej") +
-  ggtitle("slowa") + theme_bw() + scale_color_manual(values = c("red", "green", "royalblue", "magenta"))
-k4 <- ggplot(data = data4, mapping = aes(x = difference, y = tokeny, color = governor.position, fill = governor.position)) + 
+  ggtitle("Słowa") + theme_bw() + scale_color_manual(labels = c('brak', 'z lewej strony', 'z prawej strony'), values = c("red", "green", "royalblue")) + scale_fill_manual(labels = c('brak', 'z lewej strony', 'z prawej strony'), values = c("red", "green", "royalblue")) + scale_linetype_manual(labels = c('brak', 'z lewej strony', 'z prawej strony'), values = c('solid', 'twodash', 'dotted')) +
+  guides(fill=guide_legend(title="Nadrzędnik:"), color=guide_legend(title="Nadrzędnik:"), linetype=guide_legend(title="Nadrzędnik:"))
+k4 <- ggplot(data = data4, mapping = aes(x = difference, y = tokeny, color = governor.position, fill = governor.position, linetype = governor.position)) + 
   geom_point(alpha = 0.2) + 
   geom_smooth(method="glm", formula=y~x, se=TRUE, lwd = 0.35, alpha = 0.3, method.args = list(family = binomial)) + 
   xlab("Moduł z róźnicy długości członów") + 
   ylab("Proporcja krótszego członu z lewej") +
-  ggtitle("tokeny") + theme_bw() + scale_color_manual(values = c("red", "green", "royalblue", "magenta"))
+  ggtitle("Tokeny") + theme_bw() + scale_color_manual(labels = c('brak', 'z lewej strony', 'z prawej strony'), values = c("red", "green", "royalblue")) + scale_fill_manual(labels = c('brak', 'z lewej strony', 'z prawej strony'), values = c("red", "green", "royalblue")) + scale_linetype_manual(labels = c('brak', 'z lewej strony', 'z prawej strony'), values = c('solid', 'twodash', 'dotted')) +
+  guides(fill=guide_legend(title="Nadrzędnik:"), color=guide_legend(title="Nadrzędnik:"), linetype=guide_legend(title="Nadrzędnik:"))
 plots = list(k1, k2, k3, k4)
-grid.arrange(grobs = plots, ncol = 2, nrow = 2)
+#grid.arrange(grobs = plots, ncol = 2, nrow = 2, common.legend = T, legend = "bottom")
+ggarrange(k1, k2, k3, k4, ncol=2, nrow=2, common.legend = T, legend = "right")
+dev.off()
 # grid.arrange(grobs = plots, ncol = 2, nrow = 4)
 
