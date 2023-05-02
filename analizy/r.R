@@ -236,7 +236,7 @@ l4 <- ggplot(data4, aes(x=difference, y=tokeny)) + geom_point(alpha = 0.2) +
   xlab("Moduł z róźnicy długości członów") + ylab("") + facet_wrap(~ governor.position) +
   ggtitle("Tokeny") + theme_bw()
 plots = list(l1, l2, l3, l4)
-grid.arrange(grobs = plots, ncol = 1, nrow = 4, left = "Proporcja krótszego członu z lewej")
+grid.arrange(grobs = plots, ncol = 1, nrow = 4, left = "Proporcja krótszego członu z lewej strony")
 dev.off()
 
 library(ggpubr)
