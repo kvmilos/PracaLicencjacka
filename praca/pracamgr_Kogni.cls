@@ -263,7 +263,7 @@
 			\@zakres \par}
 		  \vspace{2cm plus 1.5fill}
 		  \begin{flushright}\large
-			\begin{tabular}{l}
+			\begin{tabular}{r}
 			  Praca wykonana pod kierunkiem \\
 			  \bfseries \@opiekun
 			\end{tabular}
