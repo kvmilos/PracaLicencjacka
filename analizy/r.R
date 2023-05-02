@@ -218,7 +218,7 @@ g4_emm <- emmeans(g4, specs = pairwise ~ governor.position)
 summary(g4)
 summary(g4_emm)
 
-#quartz(type = 'pdf', file = '~/Desktop/Licencjat/analizy/wykresy1.pdf')
+quartz(type = 'pdf', file = '~/Desktop/Licencjat/analizy/wykresy1.pdf')
 l1 <- ggplot(data1, aes(x=difference, y=znaki)) + geom_point(alpha = 0.2) +
   geom_smooth(method="glm", formula=y~x, se=TRUE, lwd = 0.35, fill = 'deepskyblue', method.args = list(family = binomial), colour = 'red') + 
   xlab("Moduł z róźnicy długości członów") + ylab("") + facet_wrap(~ governor.position) +
@@ -237,8 +237,9 @@ l4 <- ggplot(data4, aes(x=difference, y=tokeny)) + geom_point(alpha = 0.2) +
   ggtitle("Tokeny") + theme_bw()
 plots = list(l1, l2, l3, l4)
 grid.arrange(grobs = plots, ncol = 1, nrow = 4, left = "Proporcja krótszego członu z lewej")
-#dev.off()
+dev.off()
 
+library(ggpubr)
 quartz(type = 'pdf', file = '~/Desktop/Licencjat/analizy/wykresy2.pdf', width = 9, height = 5)
 k1 <- ggplot(data = data1, mapping = aes(x = difference, y = znaki, color = governor.position, fill = governor.position, linetype = governor.position)) + 
   geom_point(alpha = 0.2) + 
