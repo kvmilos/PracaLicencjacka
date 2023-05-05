@@ -190,6 +190,9 @@ g1_emm2 <- emmeans(g1, pairwise ~ governor.position * difference)
 summary(g1)
 summary(g1_emm)
 summary(g1_emm2)
+emt1 <- emtrends(g1, specs=pairwise~'governor.position', var='difference')
+sum1 <- summary((emt1),infer=TRUE)
+sum1
 
 # sylaby
 data2 <- data[data$'L.syllables' != data$'R.syllables', ]
@@ -199,6 +202,9 @@ g2 <- glm(sylaby ~ difference * governor.position, family = binomial, data = dat
 g2_emm <- emmeans(g2, specs = pairwise ~ governor.position)
 summary(g2)
 summary(g2_emm)
+emt2 <- emtrends(g2, specs=pairwise~'governor.position', var='difference')
+sum2 <- summary((emt2),infer=TRUE)
+sum2
 
 # słowa
 data3 <- data[data$'L.words' != data$'R.words', ]
@@ -208,6 +214,9 @@ g3 <- glm(słowa ~ difference * governor.position, family = binomial, data = dat
 g3_emm <- emmeans(g3, specs = pairwise ~ governor.position)
 summary(g3)
 summary(g3_emm)
+emt3 <- emtrends(g3, specs=pairwise~'governor.position', var='difference')
+sum3 <- summary((emt3),infer=TRUE)
+sum3
 
 # tokeny
 data4 <- data[data$'L.tokens' != data$'R.tokens', ]
@@ -217,6 +226,9 @@ g4 <- glm(tokeny ~ difference * governor.position, family = binomial, data = dat
 g4_emm <- emmeans(g4, specs = pairwise ~ governor.position)
 summary(g4)
 summary(g4_emm)
+emt4 <- emtrends(g4, specs=pairwise~'governor.position', var='difference')
+sum4 <- summary((emt4),infer=TRUE)
+sum4
 
 quartz(type = 'pdf', file = '~/Desktop/Licencjat/analizy/wykresy1.pdf')
 l1 <- ggplot(data1, aes(x=difference, y=znaki)) + geom_point(alpha = 0.2) +
