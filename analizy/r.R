@@ -104,7 +104,7 @@ testy <- function(data1, data2){
            prop.test(x = c(sum(data1a$znaki), sum(data2a$znaki)), n = c(nrow(data1a), nrow(data2a)))$p.value,
            prop.test(x = c(sum(data1b$sylaby), sum(data2b$sylaby)), n = c(nrow(data1b), nrow(data2b)))$p.value,
            prop.test(x = c(sum(data1c$słowa), sum(data2c$słowa)), n = c(nrow(data1c), nrow(data2c)))$p.value,
-           prop.test(x = c(sum(data1d$tokeny), sum(data2d$tokeny)), n = c(nrow(data1a), nrow(data2d)))$p.value))
+           prop.test(x = c(sum(data1d$tokeny), sum(data2d$tokeny)), n = c(nrow(data1d), nrow(data2d)))$p.value))
 }
 
 tab2 <- data.frame(lewy_proportion, lewy_number, pop_L, prawy_proportion, prawy_number, pop_R, testy(data_L, data_R)[1:4], testy(data_L, data_R)[5:8])
@@ -286,4 +286,6 @@ plots = list(k1, k2, k3, k4)
 ggarrange(k1, k2, k3, k4, ncol=2, nrow=2, common.legend = T, legend = "right")
 dev.off()
 # grid.arrange(grobs = plots, ncol = 2, nrow = 4)
+
+
 
