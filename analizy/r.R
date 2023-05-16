@@ -247,7 +247,7 @@ l4 <- ggplot(data4, aes(x=difference, y=tokeny)) + geom_point(alpha = 0.2) +
   geom_smooth(method="glm", formula=y~x, se=TRUE, lwd = 0.35, fill = 'deepskyblue', method.args = list(family = binomial), colour = 'red') + 
   xlab("Moduł z róźnicy długości członów") + ylab("") + facet_wrap(~ governor.position) +
   ggtitle("Tokeny") + theme_bw()
-plots = list(l1, l2, l3, l4)
+plots = list(l3, l4, l2, l1)
 grid.arrange(grobs = plots, ncol = 1, nrow = 4, left = "Proporcja krótszego członu z lewej strony")
 dev.off()
 
@@ -283,7 +283,7 @@ k4 <- ggplot(data = data4, mapping = aes(x = difference, y = tokeny, color = gov
   guides(fill=guide_legend(title="Nadrzędnik:"), color=guide_legend(title="Nadrzędnik:"), linetype=guide_legend(title="Nadrzędnik:"))
 plots = list(k1, k2, k3, k4)
 #grid.arrange(grobs = plots, ncol = 2, nrow = 2, common.legend = T, legend = "bottom")
-ggarrange(k1, k2, k3, k4, ncol=2, nrow=2, common.legend = T, legend = "right")
+ggarrange(k3, k4, k2, k1, ncol=2, nrow=2, common.legend = T, legend = "right")
 dev.off()
 # grid.arrange(grobs = plots, ncol = 2, nrow = 4)
 
