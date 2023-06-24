@@ -230,25 +230,35 @@ emt4 <- emtrends(g4, specs=pairwise~'governor.position', var='difference')
 sum4 <- summary((emt4),infer=TRUE)
 sum4
 
-quartz(type = 'pdf', file = '~/Desktop/Licencjat/analizy/wykresy1.pdf')
-l1 <- ggplot(data1, aes(x=difference, y=znaki)) + geom_point(alpha = 0.2) +
-  geom_smooth(method="glm", formula=y~x, se=TRUE, lwd = 0.35, fill = 'deepskyblue', method.args = list(family = binomial), colour = 'red') + 
-  xlab("Moduł z róźnicy długości członów") + ylab("") + facet_wrap(~ governor.position) +
-  ggtitle("Znaki") + theme_bw()
-l2 <- ggplot(data2, aes(x=difference, y=sylaby)) + geom_point(alpha = 0.2) +
-  geom_smooth(method="glm", formula=y~x, se=TRUE, lwd = 0.35, fill = 'deepskyblue', method.args = list(family = binomial), colour = 'red') + 
-  xlab("Moduł z róźnicy długości członów") + ylab("") + facet_wrap(~ governor.position) +
-  ggtitle("Sylaby") + theme_bw()
+
+library(ggplot2)
+library(gridExtra)
+library(ggExtra)
+
+quartz(type = 'pdf', file = '~/Desktop/Licencjat/analizy/wykresy_1.pdf', height = 5, width = 9)
 l3 <- ggplot(data3, aes(x=difference, y=słowa)) + geom_point(alpha = 0.2) +
-  geom_smooth(method="glm", formula=y~x, se=TRUE, lwd = 0.35, fill = 'deepskyblue', method.args = list(family = binomial), colour = 'red') + 
+  geom_smooth(method="glm", formula=y~x, se=TRUE, lwd = 0.35, fill = 'grey', method.args = list(family = binomial), colour = 'black') + 
   xlab("Moduł z róźnicy długości członów") + ylab("") + facet_wrap(~ governor.position) +
   ggtitle("Słowa") + theme_bw()
 l4 <- ggplot(data4, aes(x=difference, y=tokeny)) + geom_point(alpha = 0.2) +
-  geom_smooth(method="glm", formula=y~x, se=TRUE, lwd = 0.35, fill = 'deepskyblue', method.args = list(family = binomial), colour = 'red') + 
+  geom_smooth(method="glm", formula=y~x, se=TRUE, lwd = 0.35, fill = 'grey', method.args = list(family = binomial), colour = 'black') + 
   xlab("Moduł z róźnicy długości członów") + ylab("") + facet_wrap(~ governor.position) +
   ggtitle("Tokeny") + theme_bw()
-plots = list(l3, l4, l2, l1)
-grid.arrange(grobs = plots, ncol = 1, nrow = 4, left = "Proporcja krótszego członu z lewej strony")
+plots = list(l3, l4)
+grid.arrange(grobs = plots, ncol = 1, nrow = 2, left = "Proporcja krótszego członu z lewej strony")
+dev.off()
+
+quartz(type = 'pdf', file = '~/Desktop/Licencjat/analizy/wykresy_2.pdf', height = 5, width = 9)
+l1 <- ggplot(data1, aes(x=difference, y=znaki)) + geom_point(alpha = 0.2) +
+  geom_smooth(method="glm", formula=y~x, se=TRUE, lwd = 0.35, fill = 'grey', method.args = list(family = binomial), colour = 'black') + 
+  xlab("Moduł z róźnicy długości członów") + ylab("") + facet_wrap(~ governor.position) +
+  ggtitle("Znaki") + theme_bw()
+l2 <- ggplot(data2, aes(x=difference, y=sylaby)) + geom_point(alpha = 0.2) +
+  geom_smooth(method="glm", formula=y~x, se=TRUE, lwd = 0.35, fill = 'grey', method.args = list(family = binomial), colour = 'black') + 
+  xlab("Moduł z róźnicy długości członów") + ylab("") + facet_wrap(~ governor.position) +
+  ggtitle("Sylaby") + theme_bw()
+plots = list(l2, l1)
+grid.arrange(grobs = plots, ncol = 1, nrow = 2, left = "Proporcja krótszego członu z lewej strony")
 dev.off()
 
 library(ggpubr)
@@ -286,6 +296,5 @@ plots = list(k1, k2, k3, k4)
 ggarrange(k3, k4, k2, k1, ncol=2, nrow=2, common.legend = T, legend = "right")
 dev.off()
 # grid.arrange(grobs = plots, ncol = 2, nrow = 4)
-
 
 
