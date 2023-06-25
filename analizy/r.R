@@ -13,6 +13,8 @@ dane_L <- dane[dane$'governor.position'=="L", ]
 dane_M <- dane[dane$'governor.position'=="M", ]
 dane_R <- dane[dane$'governor.position'=="R", ]
 
+
+
 # Wyświetlenie liczby wierszy w każdej z podzielonych grup
 nrow(dane)
 nrow(dane_0)
@@ -20,6 +22,20 @@ nrow(dane_L)
 nrow(dane_M)
 nrow(dane_R)
 table(dane$conjunction.word)
+
+install.packages("gridGraphics")
+library(gridGraphics)
+library(ggplot2)
+quartz(type = 'pdf', file = '~/Desktop/Licencjat/analizy/histogramy.pdf')
+par(mfrow = c(2, 2))
+hist(dane$'L.words', xlab = 'Długość lewego członu', ylab = 'Liczba koordynacji', main = 'Histogram: słowa', cex.lab = 1.3, cex.main = 1.5)
+hist(dane$'L.tokens', xlab = 'Długość lewego członu', ylab = 'Liczba koordynacji', main = 'Histogram: tokeny', cex.lab = 1.3, cex.main = 1.5)
+hist(dane$'L.syllables', xlab = 'Długość lewego członu', ylab = 'Liczba koordynacji', main = 'Histogram: sylaby', cex.lab = 1.3, cex.main = 1.5)
+hist(dane$'L.chars', xlab = 'Długość lewego członu', ylab = 'Liczba koordynacji', main = 'Histogram: znaki', cex.lab = 1.3, cex.main = 1.5)
+dev.off()
+
+
+
 # Funkcja tworząca tabelkę z wynikami mediany, średniej, testu Wilcoxona i wartości p
 t1 <- function(data){
   median_left <- c(median(data$'L.chars'), median(data$'L.syllables'), 
@@ -30,14 +46,14 @@ t1 <- function(data){
                  mean(data$'L.words'), mean(data$'L.tokens'))
   mean_right <- c(mean(data$'R.chars'), mean(data$'R.syllables'), 
                   mean(data$'R.words'), mean(data$'R.tokens'))
-  wilcoxon <- c(wilcox.test(data$'L.chars', data$'R.chars')$statistic,
-                wilcox.test(data$'L.syllables', data$'R.syllables')$statistic,
-                wilcox.test(data$'L.words', data$'R.words')$statistic,
-                wilcox.test(data$'L.tokens', data$'R.tokens')$statistic)
-  p_value <- c(wilcox.test(data$'L.chars', data$'R.chars')$p.value,
-               wilcox.test(data$'L.syllables', data$'R.syllables')$p.value,
-               wilcox.test(data$'L.words', data$'R.words')$p.value,
-               wilcox.test(data$'L.tokens', data$'R.tokens')$p.value)
+  wilcoxon <- c(wilcox.test(data$'L.chars', data$'R.chars', alternative = 'less')$statistic,
+                wilcox.test(data$'L.syllables', data$'R.syllables', alternative = 'less')$statistic,
+                wilcox.test(data$'L.words', data$'R.words', alternative = 'less')$statistic,
+                wilcox.test(data$'L.tokens', data$'R.tokens', alternative = 'less')$statistic)
+  p_value <- c(wilcox.test(data$'L.chars', data$'R.chars', alternative = 'less')$p.value,
+               wilcox.test(data$'L.syllables', data$'R.syllables', alternative = 'less')$p.value,
+               wilcox.test(data$'L.words', data$'R.words', alternative = 'less')$p.value,
+               wilcox.test(data$'L.tokens', data$'R.tokens', alternative = 'less')$p.value)
   df_result <- data.frame(cbind(median_left, median_right, mean_left, mean_right, wilcoxon, p_value))
   rownames(df_result) <- c('znaki', 'sylaby', 'słowa', 'tokeny')
   colnames(df_result) <- c('mediana-l', 'mediana-p', 'średnia-l', 'średnia-p', 'W', 'p')
@@ -89,11 +105,11 @@ pop_R <- pobierz(data_R, sum)[5:8]
 
 #prop test
 testy <- function(data1, data2){
-  data1a <- data1[data1$'L.chars' != data1$'R.chars', ]
+  data1a <- data1[data_L$'L.chars' != data_L$'R.chars', ]
   data1b <- data1[data1$'L.syllables' != data1$'R.syllables', ]
   data1c <- data1[data1$'L.words' != data1$'R.words', ]
   data1d <- data1[data1$'L.tokens' != data1$'R.tokens', ]
-  data2a <- data2[data2$'L.chars' != data2$'R.chars', ]
+  data2a <- data2[data_R$'L.chars' != data_R$'R.chars', ]
   data2b <- data2[data2$'L.syllables' != data2$'R.syllables', ]
   data2c <- data2[data2$'L.words' != data2$'R.words', ]
   data2d <- data2[data2$'L.tokens' != data2$'R.tokens', ]
