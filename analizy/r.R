@@ -105,11 +105,11 @@ pop_R <- pobierz(data_R, sum)[5:8]
 
 #prop test
 testy <- function(data1, data2){
-  data1a <- data1[data_L$'L.chars' != data_L$'R.chars', ]
+  data1a <- data1[data1$'L.chars' != data1$'R.chars', ]
   data1b <- data1[data1$'L.syllables' != data1$'R.syllables', ]
   data1c <- data1[data1$'L.words' != data1$'R.words', ]
   data1d <- data1[data1$'L.tokens' != data1$'R.tokens', ]
-  data2a <- data2[data_R$'L.chars' != data_R$'R.chars', ]
+  data2a <- data2[data2$'L.chars' != data2$'R.chars', ]
   data2b <- data2[data2$'L.syllables' != data2$'R.syllables', ]
   data2c <- data2[data2$'L.words' != data2$'R.words', ]
   data2d <- data2[data2$'L.tokens' != data2$'R.tokens', ]
