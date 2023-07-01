@@ -26,7 +26,7 @@
 \kierunek{kognitywistyka}
 \opiekun{prof. dr.~hab. Adama Przepiórkowskiego\\
 Uniwersytet Warszawski}
-\date{czerwiec 2023}
+\date{lipiec 2023}
 \keywords{koordynacja, minimalizacja długości zależności, Polish Dependency Bank, drzewa zależnościowe, korpusy językowe}
 \begin{document}
 
@@ -65,11 +65,11 @@ Uniwersytet Warszawski}
 
     W~pracy badam dwie hipotezy dotyczące długości członów w~koordynacjach w~języku polskim: 1.~że~dłuższy człon koordynacji jest częściej ze~strony prawej i~2.~że~pozycja nadrzędnika wpływa na~rozkład długości członów koordynacji.
 
-    Długości członów mierzę na~cztery różne sposoby, licząc znaki, sylaby, tokeny\footnote{Do tokenów zalicza się całe słowa (np. \textit{być}, \textit{kolor}), pewne części słów (między~innymi wyrazy po~oderwaniu pewnych końcówek fleksyjnych oraz same te końcówki, (np. \textit{zrobił}, \textit{em})), a~także interpunkcję (np.~\textit{,},~\textit{-},~\textit{?}).} oraz słowa.
+    Długości członów mierzę na~cztery różne sposoby, licząc znaki, sylaby, tokeny\footnote{Do tokenów zalicza się całe słowa (np. \textit{być}, \textit{kolor}), pewne części słów (między~innymi wyrazy po~oderwaniu pewnych końcówek fleksyjnych oraz same te końcówki, np. \textit{zrobił}, \textit{em}), a~także interpunkcję (np.~\textit{,},~\textit{-},~\textit{?}).} oraz słowa.
     W~przykładzie (\ref{ex:1}) odpowiednie wartości wynosiłyby 4~vs~31 znaków, 2~vs~9 sylab, 1~vs~5 tokenów, 1~vs~4 słów.
-    Niewiele wysiłku zajmuje pokazanie, że pierwsza z~hipotez jest prawdziwa.
+    Niewiele wysiłku wymaga pokazanie, że pierwsza z~hipotez jest prawdziwa.
     Następnie przechodzę do~omówienia wpływu obecności i~pozycji nadrzędnika oraz różnicy długości między analizowanymi członami na~proporcje danych, w~których prawy człon jest dłuższy.
-    Praca ta~ma~charakter empiryczny, opiera się na~danych pochodzących z~Polish Dependency Bank (PDB), czyli korpusu języka polskiego zawierającego ponad 22 tysiące drzew zależnościowych, oraz na~wcześniejszej pracy badającej te~same zależności, ale dla języka angielskiego~\citep{Przepiorkowski2023}.
+    Praca ta~ma~charakter empiryczny, opiera się na~danych pochodzących z~Polish Dependency Bank (PDB; \citealp{Wroblewska2014}), czyli korpusu języka polskiego zawierającego ponad 22 tysiące drzew zależnościowych, oraz na~wcześniejszej pracy badającej te~same zależności, ale dla języka angielskiego~\citep{Przepiorkowski2023}.
 
 
     \section{Zakres i~struktura pracy}\label{sec:zakres-istruktura-pracy}
@@ -77,11 +77,11 @@ Uniwersytet Warszawski}
     Niniejszy rozdział jest rozdziałem pierwszym.
     W~rozdziale drugim omawiam teoretyczne podstawy pracy, tj. przedstawiam czym jest~koordynacja, prezentuję zarys teorii zależności składniowej, opisuję teorię minimalizacji zależności oraz wskazuję różne reprezentacje zależnościowe wraz z~ich przewidywaniami.
     W~rozdziale trzecim opisuję źródło danych, czyli Polish Dependency Bank, jak i~ich preprocessing -- działanie algorytmu, napisanego w~języku Python, wybierającego koordynacje oraz informacje o~nich z~PDB, a~także pokazuję format danych po~preprocessingu.
-    W~rozdziale czwartym dokładniej opisuję hipotezy badawcze, ich testowanie wraz z~analizami statystycznymi w~języku~R. W~rozdziale piątym omawiam wyniki badań i~ich interpretację w~kontekście dotychczasowej literatury naukowej, a~także podsumowuję pracę oraz proponuję perspektywy dalszych badań.
+    W~rozdziale czwartym konkretniej opisuję hipotezy badawcze, a także prezentuję ich testowanie wraz z~analizami statystycznymi w~języku~R. W~rozdziale piątym omawiam wyniki badań i~ich interpretację w~kontekście dotychczasowej literatury naukowej, a~także podsumowuję pracę oraz proponuję perspektywy dalszych badań.
 
 
     \chapter{Podstawy teoretyczne}\label{ch:podstawy-teoretyczne}
-    W~niniejszym rozdziale omawiam teoretyczne podstawy pracy, tj.~opisuję czym jest~koordynacja, przedstawiam zarys teorii zależności składniowej, a także prezentuję teorię minimalizację długości zależności oraz różne reprezentacje zależnościowe wraz z~ich przewidywaniami.
+    W~niniejszym rozdziale omawiam teoretyczne podstawy pracy, tj.~opisuję czym jest~koordynacja, przedstawiam zarys teorii zależności składniowej, a także prezentuję teorię minimalizację długości zależności oraz różne reprezentacje zależnościowe koordynacji wraz z~ich przewidywaniami.
 
 
     \section{Koordynacja w~języku polskim}\label{sec:koordynacja-wjezyku-polskim}
@@ -91,7 +91,7 @@ Uniwersytet Warszawski}
     Według definicji Oxford Bibliographies\footnote{\url{https://www.oxfordbibliographies.com/display/document/obo-9780199772810/obo-9780199772810-0128.xml}, dostęp z~dn. 7.04.2023} koordynacja to~zjawisko, w~którym dwa lub więcej elementów (nazywanych w~tej pracy członami) jest~ze~sobą połączonych przy użyciu spójnika, np. \textit{i}, w~jeden, większy element.
     W~przeciwieństwie do~relacji podrzędnej, w~której jeden element jest asymetryczny względem drugiego, koordynacja pod wieloma względami jest symetryczna -- dlatego nazywamy ją~strukturą współrzędną.
     Wszystkie jej człony należą zwykle do~tej samej kategorii gramatycznej, posiadają zazwyczaj te~same funkcje składniowe, a~każdy z~nich może pojawić się samodzielnie na~tym miejscu w~zdaniu.
-    Koordynacja jednak zachowuje się czasem niesymetrycznie, mając dwa człony z różnymi funkcjami składniowymi\footnote{Przykładowym wyjątkiem od~reguły posiadania tej samej funkcji składniowej jest \textit{Kto i~kogo kopnął?}, gdzie \textit{kto} jest podmiotem, a \textit{kogo} -- dopełnieniem bliższym.}.
+    Koordynacja jednak zachowuje się czasem niesymetrycznie, na przykład, gdy dwa człony mają różne funkcje składniowe\footnote{Przykładowym wyjątkiem od~reguły posiadania tej samej funkcji składniowej jest \textit{Kto i~kogo kopnął?}, gdzie \textit{kto} jest podmiotem, a \textit{kogo} -- dopełnieniem bliższym.}.
     Istnieją także rodzaje zdań, które są~mocno związane z~koordynacją -- np.~pomijanie (ang. \textit{gapping}), gdzie zdanie składa się z~dwóch połączonych zdań, jednak drugie nie ma~czasownika (zob.~\ref{ex:2a}), oraz podnoszenie prawego węzła (ang. \textit{right node raising}), gdzie zdanie tworzą dwa zdania z~tym samym elementem końcowym, więc jest on~pomijany w~tym~pierwszym~(zob.~\ref{ex:2b}).
 
     \begin{exe}
@@ -196,10 +196,9 @@ Uniwersytet Warszawski}
                 \label{ex:5b}}
         \end{enumerate}
         \label{ex:5}
-        \footnotesize{Przykładowe drzewa zależnościowe z korpusu PDB}
     \end{exe}
 
-    Aby odróżnić od~siebie różne zależności, krawędzie mogą być etykietowane, często funkcjami gramatycznymi, jak w~przykładach (5\ref{ex:5a}--\ref{ex:5b}). Oto objaśnienia użytych etykiet:
+    Aby odróżnić od~siebie różne zależności, krawędzie mogą być etykietowane, często funkcjami gramatycznymi, jak w~przykładach (5\ref{ex:5a}--\ref{ex:5b}), reprezentujących dwa drzewa zależnościowe z korpusu PDB. Oto objaśnienia użytych etykiet:
     \begin{itemize}
         \item \textit{root} -- korzeń zdania
         \item \textit{subj} -- podmiot (jeden z argumentów) zdania
@@ -258,7 +257,7 @@ Uniwersytet Warszawski}
         \label{ex:6}
     \end{exe}
 
-    \citet{Przepiorkowski2023} zwracają uwagę, że \citet{FutrellEtAl2020} oraz \citet{Hawkins1994} twierdzą, że występowanie DLM można rozróżnić na~poziom gramatyczny (\textit{grammar}), jak i~użycie języka (\textit{use}). \citet{Hawkins1994} wskazuje, że na poziomie gramatyki, pewne skonwencjonalizowane szyki składników okazują się minimalizować średnią długość zależności.
+    \citet{Przepiorkowski2023} zwracają uwagę, że \citet{FutrellEtAl2020} oraz \citet{Hawkins1994} twierdzą, że występowanie DLM można rozróżnić na~poziom gramatyczny (\textit{grammar}), jak i~użycie języka (\textit{use}). \citet{Hawkins1994} wskazuje, że na poziomie gramatyki pewne skonwencjonalizowane szyki składników okazują się minimalizować średnią długość zależności.
     Jako przykład podaje sytuację w języku angielskim, gdy NP oraz~PP są zależne od V\footnote{Wyjaśnienia użytych skrótów: V -- czasownik (ang. \textit{verb}), NP -- fraza rzeczownikowa (ang. \textit{nomimal phrase}), PP -- fraza przyimkowa (ang. \textit{prepositional phrase}).}.
     Wtedy szyk V-NP-PP miałby średnio krótszą długość zależności, niż~V-PP-NP, jako że frazy rzeczownikowe są w języku angielskim średnio krótsze niż frazy przyimkowe.
     Jak dodają \citet{Przepiorkowski2023}, \citet{Hawkins1994} argumentuje, że~tendencja ta jest skonwencjonalizowana -- występuje w~gramatyce, a~nie~tylko w użyciu.
@@ -296,7 +295,7 @@ Uniwersytet Warszawski}
         \label{ex:7}
     \end{exe}
     \footnotetext[7]{
-        Frazy \textit{I gave} oraz \textit{I've read} można przetłumaczyć również jako odpowiednio \textit{dałam} i \textit{przeczytałam}, nie zawierają one informacji o rodzaju; dla uproszczenia wszystkie przykłady tłumaczę używając rodzaju męskiego.}
+        Frazy \textit{I gave} oraz \textit{I've read} można przetłumaczyć również jako odpowiednio \textit{dałam} i \textit{przeczytałam}, nie zawierają one informacji o rodzaju; dla uproszczenia wszystkie przykłady tłumaczę, używając rodzaju męskiego.}
     \setcounter{footnote}{7}
 
     DLM jest również powiązana z~innymi właściwościami języków naturalnych, między innymi z~pozycyjnością głowy.
@@ -828,14 +827,15 @@ Uniwersytet Warszawski}
         \item pozycja nadrzędnika istotnie wpływa na zmianę tej tendencji wraz ze zmianą różnicy w długości członów koordynacji. Kiedy nadrzędnik jest z lewej strony, bądź go nie ma, tendencja do umieszczania krótszego członu na pierwszej pozycji rośnie wraz ze wzrostem modułu (wartości bezwzględnej) z różnicy długości pierwszego i~ostatniego członu. Gdy nadrzędnik jest z prawej strony, efektu takiego już nie~ma.
     \end{enumerate}
 
-    Spodziewam się, że wyniki dla języka polskiego będą podobne, tj. pierwszy człon koordynacji będzie częściej krótszy od ostatniego członu oraz proporcja ta będzie rosła wraz~ze wzrostem modułu z różnicy długości między członami -- ale tylko gdy nadrzędnik nie występuje lub znajduje się po lewej stronie. Gdy nadrzędnik jest po prawej stronie, spodziewam się, że wpływ różnicy długości członów na proporcję członów będzie istotnie mniejszy lub nie będzie go wcale.
+    Spodziewam się, że wyniki dla języka polskiego będą podobne, tj. pierwszy człon koordynacji będzie częściej krótszy od ostatniego członu oraz proporcja ta będzie rosła wraz~ze wzrostem modułu z różnicy długości między członami -- ale tylko gdy nadrzędnik nie występuje lub znajduje się po lewej stronie. Gdy nadrzędnik jest po prawej stronie, spodziewam się, że będzie zgodnie z DLM ,,przyciągał'' do siebie krótszy człon, przez co wpływ różnicy długości członów na proporcję członów będzie istotnie mniejszy lub nie będzie go wcale.
 
-    Pierwsza z hipotez wiąże się z tym, że pośród użytkowników języka może istnieć ogólna tendencja do umieszczania krótszego członu na pierwszej pozycji, niezależnie od pozycji nadrzędnika.
-    Druga z hipotez jest związana z~tym, że nawet jeśli istnieje tendencja badana w hipotezie pierwszej, to istotną rolę odgrywa również DLM. 
-    Gdy nadrzędnik jest z prawej strony, modele symetryczne oraz wariacje niesymetrycznych, w których głową jest człon bliżej nadrzędnika przewidują, że zgodnie z DLM obojętne będzie który człon jest krótszy, a który dłuższy lub krótszy powinien być ten z prawej.
-    Hipoteza ta ma na celu wzięcie pod uwagę tego, że DLM może mieć wpływ na~to, który~człon jest krótszy, a który dłuższy, nawet jeśli istnieje tendencja badana w~hipotezie pierwszej.
+    Pierwsza z hipotez wiąże się z tym, że pośród użytkowników języka może istnieć ogólna tendencja do umieszczania krótszego członu na pierwszej pozycji, niezależnie od~pozycji nadrzędnika.
+
+    Druga z hipotez ma na celu wzięcie pod uwagę tego, że DLM może mieć wpływ na~to, który~człon jest krótszy, a który dłuższy, nawet jeśli istnieje tendencja badana w~hipotezie pierwszej.
     Zgodnie z DLM, przy zwiększaniu modułu z różnicy długości członów powinna rosnąć proporcja koordynacji, w których krótszy człon jest na pierwszej pozycji.
-    Jeśli natomiast skupimy się tylko na koordynacjach z nadrzędnikiem z prawej strony, połączenie ogólnej tendencji do preferowania krótszych lewych członów z DLM powinno skutkować tym, że wraz ze wzrostem modułu z różnicy długości członów, proporcja koordynacji, w których krótszy człon jest na pierwszej pozycji, będzie rosnąć istotnie słabiej, lub wręcz nie będzie rosnąć wcale.
+    Gdy nadrzędnik jest z prawej strony, modele symetryczne oraz wariacje niesymetrycznych, w których głową jest człon bliżej nadrzędnika przewidują, że zgodnie z DLM obojętne będzie, który człon jest krótszy, a który dłuższy, lub krótszy powinien być ten z prawej.
+    Jeśli skupimy się więc tylko na koordynacjach z nadrzędnikiem z prawej strony, połączenie ogólnej tendencji do preferowania krótszych lewych członów z~DLM powinno skutkować tym, że wraz ze wzrostem modułu z różnicy długości członów, proporcja koordynacji, w których krótszy człon jest na pierwszej pozycji, będzie rosnąć istotnie słabiej niż w pozostałych przypadkach, lub wręcz nie będzie rosnąć wcale.
+    Hipoteza ta byłaby więc argumentem za symetrycznymi reprezentacjami koordynacji, ponieważ najlepiej ukazywałyby one w tym przypadku wpływ DLM na ustawienie członów koordynacji.
 
     \chapter{Dane}\label{ch:dane}
     W~tym rozdziale przedstawiam korpus będący źródłem danych użytych w~mojej pracy, kryteria ich wyodrębniania oraz sposób ich przygotowania do~analizy statystycznej.
@@ -855,17 +855,17 @@ Uniwersytet Warszawski}
 
 
     \section{Preprocessing danych}\label{sec:preprocessing-danych}
-    Preprocessing danych ma na celu wyodrębnienie z~korpusu PDB tylko tych zdań, które zawierają koordynację, oraz wydobycie informacji na temat tych koordynacji.
+    Preprocessing danych ma na celu wyodrębnienie z~korpusu PDB tylko tych zdań, które zawierają koordynacje, oraz wydobycie informacji na temat tych koordynacji.
     Interesują mnie tylko dwa człony koordynacji -- pierwszy i ostatni, zatem to informacje właśnie o nich są tu kluczowe.
     Preprocessing robię w~języku Python, w~czterech osobnych plikach, które znajdują się w~\ref{zal:a}.
     Najpierw wczytuję opisane wcześniej dane z PDB, zapisując je~w~postaci list, a~następnie wyszukuję w~nich koordynacji (szukając wyrazów, które są~nadrzędne zależnością o~etykiecie \textit{conjunct} dla przynajmniej 2 innych wyrazów -- są~to~spójniki współrzędne) i~tworzę osobną listę składającą się tylko z~tych koordynacji, zapisując w~niej informację o~obu członach, o~spójniku i~o~nadrzędniku.
-    Na przykładzie zdań \ref{ex:13a}--\ref{ex:13b}, pochodzących z~PDB, pokażę format danych oraz w~jaki sposób się~go~odczytuje.
+    Na przykładzie zdań (\ref{ex:13a})--(\ref{ex:13b}), pochodzących z~PDB, pokażę format danych oraz w~jaki sposób się~go~odczytuje\footnote{Jak widać, w przykładzie~(\ref{ex:13b}), między członami, poza spójnikiem, występuje także wyraz \textit{tu}. Według PDB jest on podrzędny względem spójnika \textit{i}, ale relacją~\textit{adjunct\_locat}, a nie \textit{conj}, zatem nie jest on częścią koordynacji. Z tego powodu nawias kwadratowy jest tutaj~rozbity na dwie części.}.
     \begin{exe}
         \ex
         {[Mały\textbf{\LARGE{,}} jasny] \textit{ptak} pochyla głowę w stronę leżącego obok okruszka.
             \label{ex:13a}}
         \ex
-        {Boguś [mieszka] tu [\textbf{i} pracuje]\footnote{Jak widać, w przykładzie~(\ref{ex:13b}), między członami, poza spójnikiem, występuje także wyraz \textit{tu}. Według PDB jest on podrzędny względem spójnika \textit{i}, ale relacją~\textit{adjunct\_locat}, a nie \textit{conj}, zatem nie jest on częścią koordynacji. Z tego powodu nawias kwadratowy jest tutaj~rozbity na dwie części.}.
+        {Boguś [mieszka] tu [\textbf{i} pracuje].
             \label{ex:13b}}
     \end{exe}
     W (\ref{conll:1})--(\ref{conll:2}) przedstawiam tabele z tymi zdaniami w~lekko uproszczonym formacie `\texttt{.conll}', a w (\ref{conll:d1})--(\ref{conll:d2}) -- te same informacje przetłumaczone na drzewa zależnościowe\footnote{Oryginalne pliki z danymi z PDB znajdują się w \ref{zal:b}.}. Na przykładzie tych dwóch zdań zilustruję, jakie informacje o koordynacji zostają wyciągnięte w trakcie preprocessingu.
@@ -957,7 +957,7 @@ Uniwersytet Warszawski}
     Dla każdej koordynacji tworzę wiersz w~tabeli, w~którym umieszczam konkretne informacje.
     Oznaczam je tutaj małymi rzymskimi numerałami, które odwołują się do tabeli z przykładu (\ref{tabela}).
     Dla koordynacji, które mają nadrzędnik, do tabeli wstawiam kolejno: (i) pozycję nadrzędnika, (ii) słowo będące nadrzędnikiem, (iii) pełny tag\footnote{Jako \textit{tag} rozumie się oznaczenie danej części mowy, tutaj wraz z~jej odmianą.} nadrzędnika, (iv) skrócony tag nadrzędnika, (v) informacje morfosyntaktyczne o~nadrzędniku, a~dla koordynacji bez nadrzędnika wstawiam tam puste wartości (poza pozycją nadrzędnika -- w~tym przypadku wstawiam tam wartość~0).
-    Następnie niezależnie od~obecności nadrzędnika umieszczam w~tabeli (vi) etykietę koordynacji, (vii) spójnik współrzędny, (viii) tag spójnika, (ix) liczbę koniunktów, oraz następujące informacje o~pierwszym i~ostatnim członie koordynacji: (x, xxi) pełny człon, (xi, xxii) człon podzielony na~sylaby\footnote{Aby policzyć sylaby w~członach, użyłem bibliotek: \textit{num2words} (\url{https://pypi.org/project/num2words/}) do~zamieniania liczb na~tekst oraz \textit{pyphen} (\url{https://pypi.org/project/pyphen/}) do~dzielenia fraz na~sylaby. Oba pakiety mogły popełniać małe błędy, jednak statystycznie powinny to~robić w~takim samym stopniu w~członie lewym co~prawym, więc nie powinno to~zaburzać wyników analiz.}, (xii, xxiii) głowa tego członu, (xiii, xxiv) pełny oraz (xiv, xxv) skrócony tag głowy członu, (xv, xxvi) informacje morfosyntaktyczne o~głowie członu, (xvi, xxvii) liczbę słow danego członu, (xvii, xxviii) liczbę jego tokenów, (xix, xxx) liczbę jego sylab, (xx, xxxi) liczbę jego znaków (wliczając spacje) oraz (xx, xxxi) informację o~tym, czy jest on~ciągły, tj.
+    Następnie niezależnie od~obecności nadrzędnika umieszczam w~tabeli (vi) etykietę koordynacji, (vii) spójnik współrzędny, (viii) tag spójnika, (ix) liczbę koniunktów, oraz następujące informacje o~pierwszym i~ostatnim członie koordynacji: (x, xxi) pełny człon, (xi, xxii) człon podzielony na~sylaby\footnote{Aby policzyć sylaby w~członach, użyłem bibliotek: \textit{num2words} (\url{https://pypi.org/project/num2words/}) do~zamieniania liczb na~tekst oraz \textit{pyphen} (\url{https://pypi.org/project/pyphen/}) do~dzielenia fraz na~sylaby. Oba pakiety mogły popełniać małe błędy, jednak statystycznie powinny to~robić w~takim samym stopniu w~członie lewym co~prawym, więc nie powinno to~zaburzać wyników analiz.}, (xii, xxiii) głowa tego członu, (xiii, xxiv) pełny oraz (xiv, xxv) skrócony tag głowy członu, (xv, xxvi) informacje morfosyntaktyczne o~głowie członu, (xvi, xxvii) liczbę słów danego członu, (xvii, xxviii) liczbę jego tokenów, (xix, xxx) liczbę jego sylab, (xx, xxxi) liczbę jego znaków (wliczając spacje) oraz (xx, xxxi) informację o~tym, czy jest on~ciągły, tj.
     czy wszystkie jego tokeny występują kolejno po~sobie, czy między nimi znajduje się jakiś token niebędący częścią tego członu.
     Na~sam koniec dodaję do~tabeli (xxxii) całe zdanie, w~którym występuje koordynacja, (xxxiii) jego identyfikator oraz (xxxiv) informację o~tym, czy jest ono w~zbiorze treningowym, walidacyjnym czy testowym.
 
@@ -1059,8 +1059,8 @@ Uniwersytet Warszawski}
     \end{tabular}
     \\
     
-    W tabeli po preprocessingu znajduje się łącznie 13247 koordynacji, w~tym w~3828 nie występuje nadrzędnik (np. w~przypadku (\ref{ex:senL}) poniżej), w~7730 występuje on po~lewej stronie (jak wyżej w (\ref{ex:13a})), w~44 pomiędzy członami (np. w (\ref{ex:senM}) poniżej), a~w~2045 po prawej stronie (jak w (\ref{ex:13b}) wyżej).
-    Koordynacje zagnieżdżone (jak w (\ref{ex:zag}) poniżej) również są uwzględniane, więc mamy pewność, że wszystkie koordynacje występujące w tym korpusie zostały wyciągnięte.
+    W tabeli po preprocessingu znajduje się łącznie 13247 koordynacji, w~tym w~3828 nie występuje nadrzędnik (jak~w~(\ref{ex:13b}) wyżej), w~2045 występuje on po prawej stronie (jak~wyżej w~(\ref{ex:13a})), w~44 pomiędzy członami (np. w (\ref{ex:senM}) poniżej), a~w~7330 po lewej stronie (np.~w~przypadku (\ref{ex:senL}) poniżej).
+    Koordynacje zagnieżdżone (jak~w~(\ref{ex:zag}) poniżej) również są uwzględniane, więc mamy pewność, że wszystkie koordynacje występujące w tym korpusie zostały wyciągnięte.
     Koordynacji dwuczłonowych jest 11635, trzyczłonowych -- 1171, jest także 265 czteroczłonowych, 90 pięcioczłonowych, 47 sześcioczłonowych, 16 siedmioczłonowych, 10 ośmioczłonowych, 3 dziewięcioczłonowe, 3 dziesięcioczłonowe, 2 jedenastoczłonowe, 2 dwunastoczłonowe, 2 trzynastoczłonowe i~jedna czternastoczłonowa.
     \begin{exe}
         \ex
@@ -1081,6 +1081,16 @@ Uniwersytet Warszawski}
     \chapter{Analiza statystyczna}\label{ch:analiza-statystyczna}
     W~rozdziale tym przedstawiam wyniki analizy statystycznej dla wyodrębnionych koordynacji, prezentując też istotne tabele oraz wykresy. Ponadto, cała ta analiza znajduje się w \ref{zal:d}.
 
+    \section{Przypomnienie hipotez}
+    W~\ref{sec:hipotezy} przedstawiłem hipotezy, które chcę zweryfikować w~ramach tej pracy. W~tym rozdziale przedstawiam je~jeszcze raz, tym razem bardziej skonkretyzowane, a~następnie przechodzę do~ich weryfikacji.
+    Oto one:
+    \begin{enumerate}[label=\arabic*)]
+        \item 
+        Prawy człon koordynacji jest średnio dłuższy od~lewego członu, zarówno w całym korpusie, jak i~osobno w~każdej z~trzech najliczniejszych grup koordynacji -- przy podziale ze względu na pozycję i obecność nadrzędnika (bez koordynacji z nadrzędnikiem pomiędzy członami). Powinno tak być niezależnie od przyjętej miary długości (tokeny, słowa, sylaby, znaki).
+        \item
+        W przypadku koordynacji bez nadrzędnika lub tych z nadrzędnikiem z lewej strony, wraz ze wzrostem modułu z różnicy długości między członami proporcje koordynacji, w których lewy człon jest krótszy powinny istotnie statystycznie rosnąć. W przypadku koordynacji z nadrzędnikiem z prawej strony, albo występowuje podobny wzrost, lecz istotnie statystycznie mniejszy od obu z pozostałych przypadków, albo wzrost ten w ogóle nie występuje. Hipoteza ta również zakłada, że powinno tak być niezależnie od przyjętej miary długości.
+    \end{enumerate}
+    
 
     \section{Podstawowa analiza}\label{sec:podstawowa-analiza}
     Jak widać w~tabeli (\ref{tab:1}), średnia długość lewego członu koordynacji jest mniejsza od~średniej długości prawego członu, patrząc zarówno na~znaki, jak i~sylaby, słowa oraz tokeny.
@@ -1153,7 +1163,7 @@ Analizę tę przeprowadziłem za pomocą nieparametrycznego testu Wilcoxona bada
 
 \section{Dalsza analiza}\label{sec:dalsza-analiza}
 Wiemy już, że~w~języku polskim, podobnie jak w~angielskim, lewy człon koordynacji jest średnio krótszy niż prawy człon.
-W~tej sekcji skupiam się na~hipotezie, że~nadrzędnik jednak ,,przyciąga'' do~siebie krótszy człon -- co~osłabia ogólną tendencję do~umieszczania krótszego członu po~lewej stronie, gdy nadrzędnik jest z~prawej strony.
+W~tej sekcji skupiam się na~hipotezie, że zgodnie z DLM, ~gdy nadrzędnik jest z prawej strony, to ,,przyciąga'' do~siebie krótszy człon -- co~osłabia ogólną tendencję do~umieszczania krótszego członu po~lewej stronie, gdy nadrzędnik jest z~prawej strony.
 Możemy to~częściowo zauważyć w~tabeli (\ref{tab:2}), pokazującej proporcje rozkładu krótszego członu z~lewej strony względem krótszego członu z~prawej strony (człony o~równej długości odpowiednie dla każdej z~miar długości zostały usunięte).
 W~przypadku znaków oraz sylab, efekt ten nie jest istotny statystycznie, jednak przy słowach i~tokenach, jest już istotny (\textit{p} < 0,05), co zmierzyłem, używając dwustronnego testu proporcji (chi-kwadrat) dla dwóch prób.
 Założenia tego testu mówią o niezależnoci prób od siebie oraz o ich liczebności -- muszą one zawierać po więcej niż 10 pomiarów. 
@@ -1213,7 +1223,7 @@ Efekt ten można wyjaśnić tym, że~koordynacje bez nadrzędnika to~zazwyczaj k
 \end{exe}
 Oznacza to, że~porównywanie całkowitych proporcji nie jest właściwym argumentem za~wpływem bliskości nadrzędnika.
 
-Jednakże, jeśli spojrzymy na~\ref{wykresy} oraz \ref{wykresy2}, możemy zauważyć, że~w~przypadku koordynacji z~nadrzędnikiem z~prawej strony, tendencja do~umieszczania krótszego członu z~lewej strony wydaje się rosnąć wraz ze~wzrostem modułu z~długości różnicy członów wolniej, niż w~pozostałych dwóch przypadkach. 
+Jednakże, jeśli spojrzymy na~\ref{wykresy} oraz \ref{wykresy2}, możemy zauważyć, że~w~przypadku koordynacji z~nadrzędnikiem z~prawej strony tendencja do~umieszczania krótszego członu z~lewej strony wydaje się rosnąć wraz ze~wzrostem modułu z~długości różnicy członów wolniej, niż w~pozostałych dwóch przypadkach. 
 \begin{sidewaysfigure}
     \centering
     \includegraphics{../analizy/wykresy\_1.pdf}
@@ -1231,10 +1241,10 @@ Jednakże, jeśli spojrzymy na~\ref{wykresy} oraz \ref{wykresy2}, możemy zauwa�
 Powyższe wykresy, jak i cała dalsza analiza, wykorzystują model dla zmiennych dwumianowych z rodziny uogólnionych modeli liniowych (GLM; Generalized Linear Models). Wykresy ukazują same zależności, ich przedziały ufności (dla $\alpha = 0,95$) oraz gęstości populacji.
 Całą analizę przeprowadzam, uwzględniając interakcję między zmiennymi \textit{moduł z różnicy długości członów} i \textit{pozycja nadrzędnika}.
 
-Jak widać w tabeli (\ref{tab:slopes}), w której znajdują się wartości nachyleń wykresów\footnote{Liczone przy pomocy funkcji \texttt{emtrends} z~pakietu \textit{emmeans} (\url{https://github.com/rvlenth/emmeans})}, przy~koordynacjach bez nadrzędnika, jak i~tych z~nadrzędnikiem z~lewej strony, wpływ bezwzględnej wartości z~różnicy długości członów jest silnie zauważalny -- proporcje krótszego lewego członu rosną wraz z~jej wzrostem, z~wartością \textit{p} poniżej 0,001 dla~wszystkich 8 przypadków (2 pozycje nadrzędnika razy 4 miary długości). 
+Jak widać w tabeli (\ref{tab:slopes}), w której znajdują się wartości nachyleń wykresów\footnote{Liczone przy pomocy funkcji \texttt{emtrends} z~pakietu \textit{emmeans} (\url{https://github.com/rvlenth/emmeans}).}, przy~koordynacjach bez nadrzędnika, jak i~tych z~nadrzędnikiem z~lewej strony, wpływ bezwzględnej wartości z~różnicy długości członów jest silnie zauważalny -- proporcje krótszego lewego członu rosną wraz z~jej wzrostem, z~wartością \textit{p} poniżej 0,001 dla~wszystkich 8 przypadków (2 pozycje nadrzędnika razy 4 miary długości). 
 W~przypadku koordynacji z~nadrzędnikiem z~prawej strony, przyjmując standardowe kryterium istotności statystycznej (\textit{p} < 0,05), nachylenie wykresów jest istotnie dodatnie dla słów, tokenów oraz znaków.
 Łatwo również zauważyć, że niezależnie od przyjętej miary długości tekstu, nachylenie wykresu dla koordynacji z~nadrzędnikiem z~prawej strony jest najniższe, a dla tych z nadrzędnikiem z lewej strony -- najwyższe.
-Wykorzystany test badający trend oraz jego istotność jest testem dla próbnych niezależnych, badającym hipotezę, że~współczynnik nachylenia jest równy 0, a~więc że~nie ma~żadnego trendu.
+Wykorzystany test badający trend oraz jego istotność jest testem dla prób niezależnych, badającym hipotezę, że~współczynnik nachylenia jest równy 0, a~więc że~nie ma~żadnego trendu.
 
 
 \begin{exe}
@@ -1298,9 +1308,9 @@ Jak możemy zauważyć, okazuje się, że~jedynie dwie wartości są~istotne sta
     \section{Podsumowanie wyników badań}\label{sec:podsumowanie-wynikow-badan}
     Zgodnie z~oczekiwaniami, lewy człon koordynacji jest krótszy niezależnie od~pozycji nadrzędnika oraz od~przyjętej miary długości tekstu.
     Co~do~drugiej hipotezy, mówiącej o~tym, że~istnieje tendencja do~preferowania szeregu z~krótszym członem z~lewej strony wraz ze~wzrostem różnicy długości członów oraz że~tendencja ta~jest silniejsza w~przypadku braku nadrzednika lub obecności nadrzędnika z~lewej strony, wyniki są~niejednoznaczne.
-    Możemy zauważyć wspomnianą tendencję, jest ona obecna: (1) w~przypadku braku nadrzędnika -- niezależnie od~przyjętej miary długości, (2) w~przypadku nadrzędnika z~lewej strony -- również niezależnie od~przyjętej miary długości, (3) w~przypadku nadrzędnika z~prawej strony -- w~przypadku mierzenia długości członów w~znakach, tokenach oraz słowach. 
-    Oznacza to, że gdy nadrzędnik jest z prawej strony, tendencja nie występuje jedynie w przypadku mierzenia długości w sylabach.
-    Zgodnie z hipotezą, tendencja ta powinna być widoczna tylko w przypadku braku nadrzędnika oraz nadrzędnika z lewej strony, bądź w przypadku nadrzędnika z prawej strony powinna być istotnie słabsza.
+    Możemy zauważyć wspomnianą tendencję, jest ona obecna: (1)~w~przypadku braku nadrzędnika -- niezależnie od~przyjętej miary długości, (2)~w~przypadku nadrzędnika z~lewej strony -- również niezależnie od~przyjętej miary długości, (3)~w~przypadku nadrzędnika z~prawej strony -- w~przypadku mierzenia długości członów w~znakach, tokenach oraz słowach. 
+    Oznacza to, że gdy nadrzędnik jest z prawej strony, tendencja nie jest istotna statystycznie jedynie w przypadku mierzenia długości w sylabach.
+    Zgodnie z hipotezą, tendencja ta powinna być istotna tylko w przypadku braku nadrzędnika oraz nadrzędnika z lewej strony, bądź w przypadku nadrzędnika z prawej strony powinna być istotnie słabsza.
     Jedynie przyjmując za~miarę długości sylaby możemy zauważyć, że~tendencja ta~spełnia nasze oczekiwania.
     Niezależnie od~przyjętej miary długości, widać jednak pewne trendy, które nie są~istotne statystycznie (poza miarą długości w~sylabach), ale wszystkie są~nakierowane w~tym samym kierunku.
     Dla każdej miary długości wynik wskazuje na~to, że~tendencja do~silniejszego preferowania krótszego członu z~lewej strony wraz ze~wzrostem modułu z~długości różnicy członów jest najsilniejsza w~przypadku nadrzędnika z~lewej strony, słabsza w~przypadku braku nadrzędnika oraz najsłabsza w~przypadku u~nadrzędnika z~prawej strony.
@@ -1316,7 +1326,7 @@ Jak możemy zauważyć, okazuje się, że~jedynie dwie wartości są~istotne sta
     Trend ten, poza przypadkiem przyjęcia sylab za~miarę długości przy porównywaniu koordynacji z nadrzędnikiem z lewej strony, a tych z nadrzędnikiem z prawej, nie jest jednak istotny statystycznie.
     Może to~wynikać z~faktu, że~próba jest mniejsza niż przy analogicznym badaniu dla języka angielskiego \citep{Przepiorkowski2023}, gdzie badano 24446 koordynacji, podczas gdy w~tym badaniu było ich prawie dwukrotnie mniej -- 13247.
     Patrząc tylko na~liczby koordynacji z~nadrzędnikiem z~prawej strony, to~w~tym badaniu było ich 2045, podczas gdy w~badaniu dla języka angielskiego było ich 4179, czyli ponad dwukrotnie więcej.
-    Gdyby założyć istotność statystyczną zauważonego trendu, wraz z~DLM byłby on~argumentem za~symetrycznymi reprezentacjami koordynacji (londyńską, praską), jako że~to~one ilustrują, że~suma długości zależności się minimalizuje, gdy nadrzędnik ,,przyciąga'' do~siebie krótszy człon.
+    Gdyby założyć istotność statystyczną zauważonego trendu, wraz z~DLM byłby on~argumentem za~symetrycznymi reprezentacjami koordynacji (londyńską, praską), jako że~to~one ilustrują, że~suma długości zależności się minimalizuje, gdy nadrzędnik z prawej strony ,,przyciąga'' do~siebie krótszy człon.
 
     \section{Przegląd literatury}\label{sec:przeglad-literatury}
     Główną pracą, z~której brałem inspirację do~tego badania, jest praca Przepiórkowskiego i~Woźniaka (\citeyear{Przepiorkowski2023}), w~której autorzy badali zjawisko to~w~języku angielskim.
@@ -1397,7 +1407,7 @@ Jak możemy zauważyć, okazuje się, że~jedynie dwie wartości są~istotne sta
 
         \bibitem [Kruijff(2002)]{Kruijff2002}
         Kruijff, G.-J. M. (2002).
-        Formal and computational aspects of~dependency grammar: History and development of~DG. W \textit{Technical report}, ESSLI2002.
+        Formal and computational aspects of~dependency grammar: History and development of~DG. \textit{Technical report, ESSLI2002}.
 
         \bibitem [Lohmann(2014)] {Lohmann2014}
         Lohmann, A. (2014). \textit{English Coordinate Constructions: A~Processing Perspective on~Constituent Order}. Cambridge University Press.
@@ -1426,8 +1436,8 @@ Jak możemy zauważyć, okazuje się, że~jedynie dwie wartości są~istotne sta
         \bibitem[Mel'čuk(2009)]{Melcuk2009}
         Mel'čuk, I.A.\ (2009).
         Dependency in natural language.
-        W \textit{Dependency in Lingwuistic Description}, 1--110.
-        John Benjamins.
+        W \textit{Dependency in Linguistic Description}, 1--110.
+        John Benjamins. \url{https://doi.org/10.1075/slcs.111.03mel}
 
         \bibitem[Pedersen i~in.(2004)]{Pedersen2004}
         Pedersen, M., Eades, D. Amin, S. K. i Prakash, L. (2004).
@@ -1437,7 +1447,7 @@ Jak możemy zauważyć, okazuje się, że~jedynie dwie wartości są~istotne sta
 
         \bibitem[Pęzik i~in.(2011)]{Pezik2011}
         Pęzik, P., Ogrodniczuk, M. i Przepiórkowski, A. (2011).
-        Parralel and spoken corpora in an open repository of Polish language resources.
+        Parallel and spoken corpora in an open repository of Polish language resources.
         W \textit{Proceedings of the 5th Language \& Technology Conference: Human Language Technologies as a Challenge for Computer Science and Linguistics}, 511--515. \url{https://nlp.ipipan.waw.pl/Bib/pez:ogr:prz:11.pdf}
 
         \bibitem [Przepiórkowski i~in.(2012)]{Przepiorkowski2012}
@@ -1450,7 +1460,7 @@ Jak możemy zauważyć, okazuje się, że~jedynie dwie wartości są~istotne sta
 
         \bibitem [Przepiórkowski i~Patejuk(2020)]{Przepiorkowski2020}
         Przepiórkowski, A. i Patejuk, A. (2020).
-        From Lexical Functional Grammar to~Enhanced Universal Dependencies.
+        From Lexical Functional Grammar to~enhanced Universal Dependencies.
         W \textit{Language Resources \& Evaluation 54}, 185–221. \url{https://doi.org/10.1007/s10579-018-9433-z}
 
         \bibitem [Przepiórkowski i~Woźniak(2023)]{Przepiorkowski2023}
@@ -1482,11 +1492,11 @@ Jak możemy zauważyć, okazuje się, że~jedynie dwie wartości są~istotne sta
         \bibitem [Wróblewska(2014)]{Wroblewska2014}
         Wróblewska, A. (2014). \textit{Polish Dependency Parser Trained on an Automatically Induced Dependency Bank} [Rozprawa Doktorska, Instytut Podstaw Informatyki Polskiej Akademii Nauk]. \url{https://nlp.ipipan.waw.pl/Bib/wro:14.pdf}
 
-        \bibitem [Wróblewska i Krasnowska-Kieraś(2017)]{Wroblewska2017}
-        Wróblewska, A. i Krasnowska-Kieraś, K. (2017). Polish evaluation dataset for compositional distributional semantic models. W \textit{Proceedings of the 55th Annual Meeting of the Association for Computational Linguistics, Volume 1: Long Papers}, 784–-792. Association for Computational Linguistics. \url{https://aclanthology.org/P17- 1073.pdf}
-
         \bibitem[Wróblewska(2020)]{Wroblewska2020}
         Wróblewska, A. (2020). Towards the conversion of National Corpus of Polish to Universal Dependencies. W \textit{Proceedings of the 12th Language Resources and Evaluation Conference}, 5308–-5315. European Language Resources Association. \url{https://www.lrec-conf.org/proceedings/lrec2020/pdf/2020.lrec-1.653.pdf}
+
+        \bibitem [Wróblewska i Krasnowska-Kieraś(2017)]{Wroblewska2017}
+        Wróblewska, A. i Krasnowska-Kieraś, K. (2017). Polish evaluation dataset for compositional distributional semantic models. W \textit{Proceedings of the 55th Annual Meeting of the Association for Computational Linguistics, Volume 1: Long Papers}, 784–-792. Association for Computational Linguistics. \url{https://aclanthology.org/P17- 1073.pdf}
     \end{thebibliography} 
 
 
