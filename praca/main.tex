@@ -38,10 +38,25 @@ Uniwersytet Warszawski}
         {Niniejsza praca licencjacka jest poświęcona analizie koordynacji w~języku polskim. Ma~ona charakter empiryczny i~opiera się na~danych pochodzących z~korpusu Polish Dependency Bank. W~pracy tej przedstawiam teorię zależności składniowej oraz teorię minimalizacji długości zależności między wyrazami, aby następnie potwierdzić hipotezę o istnieniu tendencji do umieszczania dłuższego członu koordynacji częściej ze strony prawej -- niezależnie od pozycji nadrzędnika koordynacji. Omawiam także wpływ pozycji i obecności nadrzędnika na tę tendencję, porównując wyniki własnej analizy z~istniejącą już literaturą. Wyjaśniam jak te wyniki, wraz z minimalizacją długości zależności, wpływają na różne reprezentacje struktury koordynacji w teorii zależności składniowej.}
     \end{abstract}
 
+
     \thispagestyle{empty}
     \setcounter{page}{3}
     \tableofcontents
 
+    \chapter*{Podziękowania}
+    \phantom{a}
+
+    Chciałbym podziękować mojemu promotorowi, prof. dr. hab. Adamowi Przepiórkowskiemu, za~pomoc i~cenne uwagi, które pomogły mi ukończyć tę pracę. Dziękuje też jemu, jak i panu Michałowi Woźniakowi za dostęp do artykułu, na którym oparłem swoją pracę oraz do fragmentów kodu, umożliwiających przeprowadzenie analiz statystycznych oraz wizualizacji.
+    \\
+    \\
+    \\
+
+    Dziękuję również dr. Bartoszowi Maćkiewiczowi za pomoc przy wszelkich analizach statystycznych oraz przy programowaniu w języku R.
+    \\
+    \\
+    \\
+
+    Na koniec, pragnę wyrazić podziękowania dla dr Aliny Wróblewskiej, dzięki której powstał korpus PDB, którego użyłem w tej pracy.
 
     \chapter{Wstęp}\label{ch:wstep}
     W~niniejszym rozdziale przedstawiam motywację i~cel pracy, a~także omawiam jej zakres oraz strukturę.
@@ -1235,6 +1250,10 @@ Efekt ten można wyjaśnić tym, że~koordynacje bez nadrzędnika to~zazwyczaj k
 Oznacza to, że~porównywanie całkowitych proporcji nie jest właściwym argumentem za~wpływem bliskości nadrzędnika.
 
 Jednakże, jeśli spojrzymy na~\ref{wykresy} oraz \ref{wykresy2}, możemy zauważyć, że~w~przypadku koordynacji z~nadrzędnikiem z~prawej strony tendencja do~umieszczania krótszego członu z~lewej strony wydaje się rosnąć wraz ze~wzrostem modułu z~długości różnicy członów wolniej, niż w~pozostałych dwóch przypadkach. 
+
+Poniższe wykresy, jak i cała dalsza analiza, wykorzystują model dla zmiennych dwumianowych z rodziny uogólnionych modeli liniowych (GLM; Generalized Linear Models). Wykresy ukazują same zależności, ich przedziały ufności (dla $\alpha = 0,95$) oraz gęstości populacji.
+Całą analizę przeprowadzam, uwzględniając interakcję między zmiennymi \textit{moduł z różnicy długości członów} i \textit{pozycja nadrzędnika}.
+
 \begin{sidewaysfigure}
     \centering
     \includegraphics{../analizy/wykresy\_1.pdf}
@@ -1248,9 +1267,6 @@ Jednakże, jeśli spojrzymy na~\ref{wykresy} oraz \ref{wykresy2}, możemy zauwa�
     \label{wykresy2}
 \end{sidewaysfigure}
 \newpage
-
-Powyższe wykresy, jak i cała dalsza analiza, wykorzystują model dla zmiennych dwumianowych z rodziny uogólnionych modeli liniowych (GLM; Generalized Linear Models). Wykresy ukazują same zależności, ich przedziały ufności (dla $\alpha = 0,95$) oraz gęstości populacji.
-Całą analizę przeprowadzam, uwzględniając interakcję między zmiennymi \textit{moduł z różnicy długości członów} i \textit{pozycja nadrzędnika}.
 
 Jak widać w tabeli (\ref{tab:slopes}), w której znajdują się wartości nachyleń wykresów\footnote{Liczone przy pomocy funkcji \texttt{emtrends} z~pakietu \textit{emmeans} (\url{https://github.com/rvlenth/emmeans}).}, przy~koordynacjach bez nadrzędnika, jak i~tych z~nadrzędnikiem z~lewej strony, wpływ bezwzględnej wartości z~różnicy długości członów jest silnie zauważalny -- proporcje krótszego lewego członu rosną wraz z~jej wzrostem, z~wartością \textit{p} poniżej 0,001 dla~wszystkich 8 przypadków (2 pozycje nadrzędnika razy 4 miary długości). 
 W~przypadku koordynacji z~nadrzędnikiem z~prawej strony, przyjmując standardowe kryterium istotności statystycznej (\textit{p} < 0,05), nachylenie wykresów jest istotnie dodatnie dla słów, tokenów oraz znaków.
